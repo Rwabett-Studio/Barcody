@@ -1,0 +1,139 @@
+body,html ,.light-primary,.dropdown-item,
+table.dataTable thead th, table.dataTable thead td, table.dataTable tfoot th, table.dataTable tfoot td
+{
+    text-align: right;
+    direction: rtl;
+}
+.float-end {
+    float: left !important;
+}
+.ps-4 
+{
+    padding-left: 0 !important;
+    padding-right: 20px !important;
+}
+.ps-5 {
+    padding-left: 0 !important;
+    padding-right: 3rem !important;
+}
+.ms-2 {
+    margin-right: .5rem !important;
+    margin-left: 0 !important;
+}
+.ms-3 {
+    margin-right: 1rem !important;
+    margin-left: 0 !important;
+}
+.ms-4 {
+    margin-right: 1.5rem !important;
+    margin-left: 0 !important;
+}
+.me-2 {
+    margin-left: .5rem !important;
+    margin-right: 0 !important;
+}
+.me-3 {
+    margin-left: 1rem !important;
+    margin-right: 0 !important;
+}
+table.dataTable thead>tr>th.dt-orderable-asc, table.dataTable thead>tr>th.dt-orderable-desc, table.dataTable thead>tr>th.dt-ordering-asc, table.dataTable thead>tr>th.dt-ordering-desc, table.dataTable thead>tr>td.dt-orderable-asc, table.dataTable thead>tr>td.dt-orderable-desc, table.dataTable thead>tr>td.dt-ordering-asc, table.dataTable thead>tr>td.dt-ordering-desc
+{
+    padding-right: 10px;
+    padding-left: 10px;
+}
+.navbar-brand + .d-flex
+{
+    flex-direction: row-reverse;
+}
+.list-unstyled
+{
+    padding: 0;
+}
+.logFormDV input + span,.checkbox.style-b .checkbox__checkmark
+/* ,#openbtn */
+{
+    left: auto;
+}
+table.dataTable thead>tr>th.dt-orderable-asc span.dt-column-order, table.dataTable thead>tr>th.dt-orderable-desc span.dt-column-order, table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order, table.dataTable thead>tr>th.dt-ordering-desc span.dt-column-order, table.dataTable thead>tr>td.dt-orderable-asc span.dt-column-order, table.dataTable thead>tr>td.dt-orderable-desc span.dt-column-order, table.dataTable thead>tr>td.dt-ordering-asc span.dt-column-order, table.dataTable thead>tr>td.dt-ordering-desc span.dt-column-order
+{
+    right: auto;
+}
+.logFormDV button.blueBtn+h6 a
+{
+    float: left;
+}
+table.dataTable thead>tr>th.dt-orderable-asc span.dt-column-order, table.dataTable thead>tr>th.dt-orderable-desc span.dt-column-order, table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order, table.dataTable thead>tr>th.dt-ordering-desc span.dt-column-order, table.dataTable thead>tr>td.dt-orderable-asc span.dt-column-order, table.dataTable thead>tr>td.dt-orderable-desc span.dt-column-order, table.dataTable thead>tr>td.dt-ordering-asc span.dt-column-order, table.dataTable thead>tr>td.dt-ordering-desc span.dt-column-order
+{
+    left: 15%
+}
+
+.sidebar
+{
+    right: 0;
+    left: auto;
+} 
+.table-tools
+{
+    left: 0;
+    right: auto;
+}
+    .offset-lg-2 {
+    margin-right: 16.66666667%;
+    margin-left: 0;
+
+}
+#myBtn1
+{
+    right: 10px;
+}
+.menuItms .list-unstyled li button span ,.myBtn1,.accordion-button::after,
+/* index 19000 */
+.greenSpan, .graySpan, .inActive
+{
+    margin-left: 0;
+}
+.myBtn1,.accordion-button::after,
+/* index 19000 */
+.greenSpan, .graySpan, .inActive
+{
+    margin-right: auto;
+}
+.mainBtn i, .blueBtn i
+{
+    margin-right: 0;
+}
+.mainBtn i, .blueBtn i
+{
+    transform: rotatey(180deg);
+}
+.logFormDV button.blueBtn+h6
+{
+    width: fit-content;
+}
+.logFormDV input + span
+{
+    right: 9px;
+}
+.checkbox.style-b .checkbox__checkmark
+{
+    right: -2px;
+}
+.note svg {
+    margin-left: 16px;
+    margin-right: 0;
+}
+.menuItms .list-unstyled li button span {
+    margin-right: 12px;
+}
+.mainBtn i, .blueBtn i
+{
+    margin-left: 5px;
+}
+.page-item:nth-last-child(2) .page-link {
+    border-top-right-radius: var(--bs-pagination-border-radius);
+    border-bottom-right-radius: var(--bs-pagination-border-radius);
+}
+.page-item:nth-child(2) .page-link {
+    border-top-left-radius: var(--bs-pagination-border-radius);
+    border-bottom-left-radius: var(--bs-pagination-border-radius);
+}
