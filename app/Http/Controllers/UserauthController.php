@@ -241,13 +241,20 @@ public function sendWhatsappOTP($phone, $otp)
                 'otp_expires_at' => Carbon::now()->addMinutes(self::OTP_EXPIRY_MINUTES)
             ]);
 
-            $this->sendWhatsappOTP($user->phone, $otp);
+            $otpSent = false;
+            try {
+                $this->sendWhatsappOTP($user->phone, $otp);
+                $otpSent = true;
+            } catch (\Exception $e) {
+                Log::warning('WhatsApp OTP not sent during registration: ' . $e->getMessage());
+            }
 
             return response()->json([
                 'success' => true,
-                'message' => 'OTP has been sent to your WhatsApp number',
+                'message' => $otpSent ? 'OTP has been sent to your WhatsApp number' : 'Account created. OTP service unavailable, contact support.',
                 'phone' => $user->phone,
-                'otp_expires_in' => self::OTP_EXPIRY_MINUTES . ' minutes'
+                'otp_expires_in' => self::OTP_EXPIRY_MINUTES . ' minutes',
+                'otp_sent' => $otpSent,
             ], 201);
 
         } catch (\Exception $e) {
@@ -258,6 +265,36 @@ public function sendWhatsappOTP($phone, $otp)
                 'error' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
+        }
+
+        $user = User::where('email', $request->email)->first();
+        $otp = rand(100000, 999999);
+        $user->update(['otp' => $otp, 'otp_expires_at' => Carbon::now()->addMinutes(self::OTP_EXPIRY_MINUTES)]);
+
+        $otpSent = false;
+        try {
+            $this->sendWhatsappOTP($user->phone, $otp);
+            $otpSent = true;
+        } catch (\Exception $e) {
+            Log::warning('WhatsApp OTP not sent for forgot password: ' . $e->getMessage());
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => $otpSent ? 'OTP sent to your WhatsApp number' : 'OTP generated but WhatsApp service unavailable.',
+            'phone' => $user->phone,
+            'otp_sent' => $otpSent,
+        ]);
     }
 
     // API OTP Verification
