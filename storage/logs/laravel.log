@@ -2602,3 +2602,152 @@
 #51 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\Users\\\\mahmo\\\\...')
 #52 {main}
 "} 
+[2026-05-31 22:09:28] local.WARNING: WhatsApp OTP not sent during registration: Could not send OTP. Please try again.  
+[2026-05-31 22:09:29] local.ERROR: OTP Send Error: Could not send OTP. Please try again.  
+[2026-05-31 22:09:30] local.ERROR: Phone Login OTP Error: Could not send OTP. Please try again.  
+[2026-05-31 22:09:32] local.ERROR: API Resend OTP Error: Could not send OTP. Please try again.  
+[2026-05-31 22:09:32] local.WARNING: WhatsApp OTP not sent for forgot password: Could not send OTP. Please try again.  
+[2026-05-31 22:13:54] local.ERROR: OTP Send Error: Could not send OTP. Please try again.  
+[2026-05-31 22:13:55] local.ERROR: Phone Login OTP Error: Could not send OTP. Please try again.  
+[2026-05-31 22:13:57] local.ERROR: API Resend OTP Error: Could not send OTP. Please try again.  
+[2026-05-31 22:13:58] local.WARNING: WhatsApp OTP not sent for forgot password: Could not send OTP. Please try again.  
+[2026-05-31 22:16:21] local.ERROR: OTP Send Error: Could not send OTP. Please try again.  
+[2026-05-31 22:16:22] local.ERROR: Phone Login OTP Error: Could not send OTP. Please try again.  
+[2026-05-31 22:16:24] local.ERROR: API Resend OTP Error: Could not send OTP. Please try again.  
+[2026-05-31 22:16:24] local.WARNING: WhatsApp OTP not sent for forgot password: Could not send OTP. Please try again.  
+[2026-05-31 22:20:00] local.ERROR: OTP Send Error: Could not send OTP. Please try again.  
+[2026-05-31 22:20:01] local.ERROR: Phone Login OTP Error: Could not send OTP. Please try again.  
+[2026-05-31 22:20:03] local.ERROR: API Resend OTP Error: Could not send OTP. Please try again.  
+[2026-05-31 22:20:03] local.WARNING: WhatsApp OTP not sent for forgot password: Could not send OTP. Please try again.  
+[2026-05-31 22:22:52] local.ERROR: OTP Send Error: Could not send OTP. Please try again.  
+[2026-05-31 22:22:53] local.ERROR: Phone Login OTP Error: Could not send OTP. Please try again.  
+[2026-05-31 22:22:54] local.ERROR: API Resend OTP Error: Could not send OTP. Please try again.  
+[2026-05-31 22:22:55] local.WARNING: WhatsApp OTP not sent for forgot password: Could not send OTP. Please try again.  
+[2026-05-31 22:27:27] local.ERROR: OTP Send Error: Could not send OTP. Please try again.  
+[2026-05-31 22:27:28] local.ERROR: Phone Login OTP Error: Could not send OTP. Please try again.  
+[2026-05-31 22:27:29] local.ERROR: API Resend OTP Error: Could not send OTP. Please try again.  
+[2026-05-31 22:27:30] local.WARNING: WhatsApp OTP not sent for forgot password: Could not send OTP. Please try again.  
+[2026-05-31 22:44:07] local.INFO: Raw Webhook Data: {"entry":[{"changes":[{"value":{"messages":[{"type":"button","from":"966511111111","button":{"text":"Over 9 levels deep, aborting normalization"}}]}}]}]} 
+[2026-05-31 22:44:07] local.INFO: Button Press Detected {"phone":"966511111111","button":"Ø­Ø¶ÙˆØ±"} 
+[2026-05-31 22:48:36] local.ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'name' in 'field list' (SQL: insert into `settings` (`name`, `location`, `maps`, `updated_at`, `created_at`) values (Barcody, ??????, https://m.com, 2026-05-31 22:48:36, 2026-05-31 22:48:36)) {"userId":7,"exception":"[object] (Illuminate\\Database\\QueryException(code: 42S22): SQLSTATE[42S22]: Column not found: 1054 Unknown column 'name' in 'field list' (SQL: insert into `settings` (`name`, `location`, `maps`, `updated_at`, `created_at`) values (Barcody, ??????, https://m.com, 2026-05-31 22:48:36, 2026-05-31 22:48:36)) at C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:760)
+[stacktrace]
+#0 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(720): Illuminate\\Database\\Connection->runQueryCallback('insert into `se...', Array, Object(Closure))
+#1 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(534): Illuminate\\Database\\Connection->run('insert into `se...', Array, Object(Closure))
+#2 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(498): Illuminate\\Database\\Connection->statement('insert into `se...', Array)
+#3 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Processors\\Processor.php(32): Illuminate\\Database\\Connection->insert('insert into `se...', Array)
+#4 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3322): Illuminate\\Database\\Query\\Processors\\Processor->processInsertGetId(Object(Illuminate\\Database\\Query\\Builder), 'insert into `se...', Array, 'id')
+#5 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(1869): Illuminate\\Database\\Query\\Builder->insertGetId(Array, 'id')
+#6 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1330): Illuminate\\Database\\Eloquent\\Builder->__call('insertGetId', Array)
+#7 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1295): Illuminate\\Database\\Eloquent\\Model->insertAndSetId(Object(Illuminate\\Database\\Eloquent\\Builder), Array)
+#8 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1138): Illuminate\\Database\\Eloquent\\Model->performInsert(Object(Illuminate\\Database\\Eloquent\\Builder))
+#9 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(986): Illuminate\\Database\\Eloquent\\Model->save()
+#10 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\helpers.php(319): Illuminate\\Database\\Eloquent\\Builder->Illuminate\\Database\\Eloquent\\{closure}(Object(App\\Models\\Setting))
+#11 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(985): tap(Object(App\\Models\\Setting), Object(Closure))
+#12 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Traits\\ForwardsCalls.php(23): Illuminate\\Database\\Eloquent\\Builder->create(Array)
+#13 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(2330): Illuminate\\Database\\Eloquent\\Model->forwardCallTo(Object(Illuminate\\Database\\Eloquent\\Builder), 'create', Array)
+#14 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(2342): Illuminate\\Database\\Eloquent\\Model->__call('create', Array)
+#15 C:\\Users\\mahmo\\Barcody\\app\\Http\\Controllers\\SettingController.php(187): Illuminate\\Database\\Eloquent\\Model::__callStatic('create', Array)
+#16 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): App\\Http\\Controllers\\SettingController->apiStore(Object(Illuminate\\Http\\Request))
+#17 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(43): Illuminate\\Routing\\Controller->callAction('apiStore', Array)
+#18 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(259): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\SettingController), 'apiStore')
+#19 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(205): Illuminate\\Routing\\Route->runController()
+#20 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(798): Illuminate\\Routing\\Route->run()
+#21 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#22 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#23 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#24 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(126): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#25 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(92): Illuminate\\Routing\\Middleware\\ThrottleRequests->handleRequest(Object(Illuminate\\Http\\Request), Object(Closure), Array)
+#26 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(54): Illuminate\\Routing\\Middleware\\ThrottleRequests->handleRequestUsingNamedLimiter(Object(Illuminate\\Http\\Request), Object(Closure), 'api', Object(Closure))
+#27 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 'api')
+#28 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\Middleware\\Authenticate.php(44): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#29 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure), 'sanctum')
+#30 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#31 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(797): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#32 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(776): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#33 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(740): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#34 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(729): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#35 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(190): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#36 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#37 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#38 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#39 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#40 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#41 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#42 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#43 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#44 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#45 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(86): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#46 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#47 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(62): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#48 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#49 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#50 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#51 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#52 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(165): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#53 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(134): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#54 C:\\Users\\mahmo\\Barcody\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#55 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\Users\\\\mahmo\\\\...')
+#56 {main}
+
+[previous exception] [object] (PDOException(code: 42S22): SQLSTATE[42S22]: Column not found: 1054 Unknown column 'name' in 'field list' at C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:539)
+[stacktrace]
+#0 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(539): PDO->prepare('insert into `se...')
+#1 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(753): Illuminate\\Database\\Connection->Illuminate\\Database\\{closure}('insert into `se...', Array)
+#2 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(720): Illuminate\\Database\\Connection->runQueryCallback('insert into `se...', Array, Object(Closure))
+#3 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(534): Illuminate\\Database\\Connection->run('insert into `se...', Array, Object(Closure))
+#4 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(498): Illuminate\\Database\\Connection->statement('insert into `se...', Array)
+#5 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Processors\\Processor.php(32): Illuminate\\Database\\Connection->insert('insert into `se...', Array)
+#6 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3322): Illuminate\\Database\\Query\\Processors\\Processor->processInsertGetId(Object(Illuminate\\Database\\Query\\Builder), 'insert into `se...', Array, 'id')
+#7 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(1869): Illuminate\\Database\\Query\\Builder->insertGetId(Array, 'id')
+#8 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1330): Illuminate\\Database\\Eloquent\\Builder->__call('insertGetId', Array)
+#9 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1295): Illuminate\\Database\\Eloquent\\Model->insertAndSetId(Object(Illuminate\\Database\\Eloquent\\Builder), Array)
+#10 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1138): Illuminate\\Database\\Eloquent\\Model->performInsert(Object(Illuminate\\Database\\Eloquent\\Builder))
+#11 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(986): Illuminate\\Database\\Eloquent\\Model->save()
+#12 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\helpers.php(319): Illuminate\\Database\\Eloquent\\Builder->Illuminate\\Database\\Eloquent\\{closure}(Object(App\\Models\\Setting))
+#13 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(985): tap(Object(App\\Models\\Setting), Object(Closure))
+#14 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Traits\\ForwardsCalls.php(23): Illuminate\\Database\\Eloquent\\Builder->create(Array)
+#15 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(2330): Illuminate\\Database\\Eloquent\\Model->forwardCallTo(Object(Illuminate\\Database\\Eloquent\\Builder), 'create', Array)
+#16 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(2342): Illuminate\\Database\\Eloquent\\Model->__call('create', Array)
+#17 C:\\Users\\mahmo\\Barcody\\app\\Http\\Controllers\\SettingController.php(187): Illuminate\\Database\\Eloquent\\Model::__callStatic('create', Array)
+#18 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): App\\Http\\Controllers\\SettingController->apiStore(Object(Illuminate\\Http\\Request))
+#19 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(43): Illuminate\\Routing\\Controller->callAction('apiStore', Array)
+#20 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(259): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\SettingController), 'apiStore')
+#21 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(205): Illuminate\\Routing\\Route->runController()
+#22 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(798): Illuminate\\Routing\\Route->run()
+#23 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#24 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#25 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#26 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(126): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#27 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(92): Illuminate\\Routing\\Middleware\\ThrottleRequests->handleRequest(Object(Illuminate\\Http\\Request), Object(Closure), Array)
+#28 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(54): Illuminate\\Routing\\Middleware\\ThrottleRequests->handleRequestUsingNamedLimiter(Object(Illuminate\\Http\\Request), Object(Closure), 'api', Object(Closure))
+#29 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 'api')
+#30 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\Middleware\\Authenticate.php(44): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#31 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure), 'sanctum')
+#32 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(797): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#34 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(776): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#35 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(740): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#36 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(729): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#37 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(190): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#38 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(141): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#39 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#40 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#42 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#43 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#45 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#46 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#47 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(86): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#48 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#49 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(62): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#50 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#51 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#52 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#53 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(116): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#54 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(165): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#55 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(134): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#56 C:\\Users\\mahmo\\Barcody\\public\\index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#57 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\Users\\\\mahmo\\\\...')
+#58 {main}
+"} 

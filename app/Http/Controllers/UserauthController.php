@@ -77,38 +77,41 @@ class UserauthController extends Controller
 public function sendWhatsappOTP($phone, $otp)
 {
     try {
-        $apiKey = env('TOOLKINGMASTER_API_KEY');
-        $instanceId = env('TOOLKINGMASTER_INSTANCE_ID');
-        
-        if (empty($apiKey)) {
-            throw new \Exception('WhatsApp API key not configured');
+        $apiToken = env('WHATSAPP_API_TOKEN');
+
+        if (empty($apiToken)) {
+            throw new \Exception('WhatsApp API token not configured');
         }
 
+        $formattedPhone = preg_replace('/[^0-9]/', '', $phone);
+
         Log::channel('whatsapp')->info('Attempting to send OTP', [
-            'phone' => $phone,
+            'phone' => $formattedPhone,
             'otp' => $otp,
             'time' => now()->toDateTimeString()
         ]);
 
         $client = new Client(['timeout' => 20, 'verify' => false]);
-        $response = $client->post('https://king-master.pro/api/send', [
-            'form_params' => [
-                'number' => $phone,
-                'type' => 'text',
-                'message' => "Your OTP code is: $otp\nValid for " . self::OTP_EXPIRY_MINUTES . " minutes.",
-                'instance_id' => $instanceId,
-                'access_token' => $apiKey
+        $response = $client->post('https://app.chatberry.net/api/wpbox/sendmessage', [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+            ],
+            'json' => [
+                'token' => $apiToken,
+                'phone' => $formattedPhone,
+                'message' => "Your Barcody OTP code is: $otp\nValid for " . self::OTP_EXPIRY_MINUTES . " minutes.",
             ]
         ]);
 
         $responseData = json_decode($response->getBody(), true);
 
-        if ($response->getStatusCode() !== 200) {
+        if ($response->getStatusCode() !== 200 || ($responseData['status'] ?? null) !== 'success') {
             throw new \Exception($responseData['message'] ?? 'Failed to send OTP');
         }
 
         Log::channel('whatsapp')->info('OTP sent successfully', [
-            'phone' => $phone,
+            'phone' => $formattedPhone,
             'response' => $responseData
         ]);
 
@@ -120,7 +123,7 @@ public function sendWhatsappOTP($phone, $otp)
             'phone' => $phone,
             'trace' => $e->getTraceAsString()
         ]);
-        
+
         throw new \Exception('Could not send OTP. Please try again.');
     }
     
