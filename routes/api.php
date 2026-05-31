@@ -35,8 +35,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Public Routes
 Route::prefix('auth')->group(function () {
-    Route::post('/register', [UserauthController::class, 'register']);
-    Route::post('/login', [UserauthController::class, 'login']);
+    Route::post('/register', [UserauthController::class, 'registerApi']);
+    Route::post('/login', [UserauthController::class, 'loginApi']);
     Route::post('/send-otp', [UserauthController::class, 'sendOtp']);
     Route::post('/forgot-password', [UserauthController::class, 'forgotPassword']);
     Route::post('/reset-password', [UserauthController::class, 'resetPassword']);
