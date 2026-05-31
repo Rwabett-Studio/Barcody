@@ -44,9 +44,9 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:sanctum')->group(function () {
     // Notification routes
-    Route::get('/notifications', [\App\Http\Controllers\API\NotificationController::class, 'index']);
-    Route::post('/contacts/{contact}/status', [\App\Http\Controllers\API\NotificationController::class, 'updateStatus']);
-    Route::post('/notifications/{notification}/read', [\App\Http\Controllers\API\NotificationController::class, 'markAsRead']);
+    Route::get('/notifications', [\App\Http\Controllers\NotificationController::class, 'index']);
+    Route::post('/contacts/{contact}/status', [\App\Http\Controllers\NotificationController::class, 'updateStatus']);
+    Route::post('/notifications/{notification}/read', [\App\Http\Controllers\NotificationController::class, 'markAsRead']);
     
     // Contact invitation response endpoint (for contacts to respond)
     Route::post('/invitations/{contact}/respond', function (Request $request, Contact $contact) {
