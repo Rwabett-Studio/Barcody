@@ -218,7 +218,7 @@ $qrCode = !empty($qrData) ? QrCode::encoding('UTF-8')->size(100)->generate($qrDa
             $event->thumbnail_image = $path; 
         }
 
-        $event->user_id = 3;
+        $event->user_id = Auth::id();
         $event->save();
 
         return response()->json([
