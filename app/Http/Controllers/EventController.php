@@ -30,9 +30,8 @@ foreach ($events as $event) {
     $qrData .= "-----------------------------\n";
 }
 
-$qrCode = QrCode::encoding('UTF-8')->size(100)->generate($qrData);
+$qrCode = !empty($qrData) ? QrCode::encoding('UTF-8')->size(100)->generate($qrData) : null;
 
-        
         return view('admin.events.index', compact('events', 'qrCode'));
     }
 
@@ -140,8 +139,7 @@ $qrCode = QrCode::encoding('UTF-8')->size(100)->generate($qrData);
             $qrData .= "-----------------------------\n"; 
         }
         
-        // Generate the QR code with UTF-8 encoding
-        $qrCode = QrCode::encoding('UTF-8')->size(100)->generate($qrData);
+        $qrCode = !empty($qrData) ? QrCode::encoding('UTF-8')->size(100)->generate($qrData) : null;
         
         $event = Event::with(['category', 'user'])->where('id', $id)->first();
 
