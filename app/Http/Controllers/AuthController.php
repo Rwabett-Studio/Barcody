@@ -9,6 +9,7 @@ use App\Models\Category;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -20,9 +21,9 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->events = Event::with(['category', 'user'])->get();
-        $this->users = User::all();
-        $this->categories = Category::all();
+        $this->events = Event::query();
+        $this->users = User::query();
+        $this->categories = Category::query();
     }
 
 
@@ -31,11 +32,7 @@ class AuthController extends Controller
     {
         // Check if the user is already authenticated
         if (Auth::check()) {
-            $events = Event::with(['category', 'user'])->get();
-            $users = User::all();
-            $categories = Category::all();
-
-            return view('admin.index', compact('events', 'users', 'categories')); 
+            return view('admin.index', $this->dashboardStats()); 
         }
     
         // If not authenticated, show the login form
@@ -85,17 +82,29 @@ class AuthController extends Controller
 
         // Redirect to admin dashboard after successful login
         // return redirect()->route('admin.index')->with('success', 'Logged in successfully!');
-        $events = Event::with(['category', 'user'])->get();
-        $users = User::all();
-        $categories = Category::all();
-
-        return view('admin.index', compact('events', 'users', 'categories')); 
+        return view('admin.index', $this->dashboardStats()); 
     }
 
     public function logout()
     {
         Auth::logout(); // Log the user out
         return redirect()->route('login')->with('success', 'Logged out successfully!'); // Redirect to login page
+    }
+
+    private function dashboardStats(): array
+    {
+        return [
+            'totalUsers' => User::count(),
+            'totalEvents' => Event::count(),
+            'totalCategories' => Category::count(),
+            'publishedEvents' => Event::where('status', 'published')->count(),
+            'draftEvents' => Event::where('status', 'draft')->count(),
+            'confirmedTotal' => (int) DB::table('events')->sum('confirmed'),
+            'canceledTotal' => (int) DB::table('events')->sum('canceled'),
+            'failedTotal' => (int) DB::table('events')->sum('failed'),
+            'scannedTotal' => (int) DB::table('events')->sum('scanned'),
+            'recentEvents' => Event::orderBy('created_at', 'desc')->take(5)->get(),
+        ];
     }
 
 

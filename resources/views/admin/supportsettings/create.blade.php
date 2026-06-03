@@ -1,117 +1,130 @@
 @include('admin.layouts.header')
 
-    <div id="main" class="offset-lg-2">
-    
-    <!-- content -->
-    <div class="content pt-3">
-        <div class="d-flex justify-content-between align-items-center border-bottom mainBordClr mb-lg-4 mb-0">
-            <h4 class="fw-bold mb-0">List of Companies</h4>
-            <button class="d-flex align-items-center blueBtn">
-                <i class="fas fa-plus"></i> <span>Add company</span>
-            </button>
-        </div>
-        <div class="col-12 position-relative pt-1">
-    
-   
-            <div class="logFormDV center mb-lg-5 mb-2">
-                <div class="clear"></div>
-                <div class="col-lg-9 center pt-lg-5 pt-2">
-               
-                  <form action="{{ route('supportsettings.store') }}" method="POST">
-                    @csrf
-                    
-                    <div class="row">
-                      <div class="col-12">
-                        <div class="position-relative">
-                          <label for="name" class="form-label">Name</label>
-                          <input type="text" class="form-control" id="name" name="name" required>
-                        </div>
-                      </div>
-
-
-                      <div class="col-12">
-                        <div class="position-relative">
-                          <label for="email" class="form-label">Email</label>
-                          <input type="email" class="form-control" id="email" name="email" required>
-                        </div>                 
-                      </div>
-
-                      <div class="col-12">
-                        <div class="position-relative">
-                          <label for="phone" class="form-label">Phone</label>
-                          <input type="text" class="form-control" id="phone" name="phone" required>
-                        </div>
-                      </div>
-
-
-                      <div class="col-12">
-                        <div class="position-relative">
-                          <label for="whatsapp" class="form-label">WhatsApp</label>
-                          <input type="text" class="form-control" id="whatsapp" name="whatsapp">
-                        </div>                 
-                      </div>
-
-                      <div class="col-12">
-                        <div class="position-relative">
-                          <label for="facebook" class="form-label">Facebook</label>
-                          <input type="text" class="form-control" id="facebook" name="facebook">
-                        </div>
-                      </div>
-
-
-                      <div class="col-12">
-                        <div class="position-relative">
-                          <label for="youtube" class="form-label">YouTube</label>
-                          <input type="text" class="form-control" id="youtube" name="youtube">
-                        </div>                 
-                      </div>
-
-                      <div class="col-12">
-                        <div class="position-relative">
-                          <label for="twitter" class="form-label">Twitter</label>
-                          <input type="text" class="form-control" id="twitter" name="twitter">
-                        </div>
-                      </div>
-
-
-                      <div class="col-12">
-                        <div class="position-relative">
-                          <label for="instagram" class="form-label">Instagram</label>
-                          <input type="text" class="form-control" id="instagram" name="instagram">
-                        </div>                 
-                      </div>
-
-                      <div class="col-12">
-                        <div class="position-relative">
-                          <label for="dribbble" class="form-label">Dribbble</label>
-                          <input type="text" class="form-control" id="dribbble" name="dribbble">
-                        </div>                 
-                      </div>
-
-                      <div class="col-12">
-                        <div class="position-relative">
-                          <label for="behance" class="form-label">Behance</label>
-                          <input type="text" class="form-control" id="behance" name="behance">
-                        </div>                 
-                      </div>
-              
-                      <div class="col-12">
-                        <button class="btn blueBtn d-flex w-100 d-flex align-items-center text-center justify-content-center">
-                          <span><i class="fas fa-arrow-right border-0"></i></span>
-                          <span>Submit</span>
-                        </button>
-                      </div>
-                    </div>
+<div id="main" class="offset-lg-2">
+    <div class="content pt-3 px-3 px-md-4">
         
-                  </form>
-                </div>
+        <!-- Header -->
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-4 gap-3">
+            <div>
+                <h4 class="fw-bold mb-1" style="color: #172033; font-family: 'Outfit', sans-serif;">Add Support Setting</h4>
+                <p class="text-muted mb-0" style="font-size: 14px;">Create a new contact channel for support.</p>
             </div>
+            <a href="{{ route('supportsettings.index') }}" class="btn btn-light shadow-sm" style="border-radius: 8px; font-weight: 600;">
+                <i class="fas fa-arrow-left me-2 text-secondary"></i> Back
+            </a>
+        </div>
 
+        <div class="contact-form-shell shadow-sm" style="border-radius: 12px; border: 1px solid #edf2f7; background: #fff; padding: 30px;">
+            <form action="{{ route('supportsettings.store') }}" method="POST">
+                @csrf
+                
+                <h5 class="fw-bold mb-4" style="color: #172033;"><i class="fas fa-info-circle me-2 text-primary"></i> Contact Details</h5>
+                
+                <div class="contact-form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <!-- Name -->
+                    <div class="form-group">
+                        <label for="name" class="form-label text-secondary fw-medium" style="font-size: 13px;">Channel Name <span class="text-danger">*</span></label>
+                        <div class="input-group shadow-sm" style="border-radius: 8px;">
+                            <span class="input-group-text bg-light border-end-0 text-secondary" style="border-radius: 8px 0 0 8px;"><i class="fas fa-headset"></i></span>
+                            <input type="text" class="form-control border-start-0 ps-0" id="name" name="name" placeholder="e.g., Technical Support" style="border-radius: 0 8px 8px 0; box-shadow: none;" required>
+                        </div>
+                    </div>
 
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="email" class="form-label text-secondary fw-medium" style="font-size: 13px;">Email Address <span class="text-danger">*</span></label>
+                        <div class="input-group shadow-sm" style="border-radius: 8px;">
+                            <span class="input-group-text bg-light border-end-0" style="border-radius: 8px 0 0 8px; color: #ea4335;"><i class="fas fa-envelope"></i></span>
+                            <input type="email" class="form-control border-start-0 ps-0" id="email" name="email" placeholder="support@example.com" style="border-radius: 0 8px 8px 0; box-shadow: none;" required>
+                        </div>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="form-group">
+                        <label for="phone" class="form-label text-secondary fw-medium" style="font-size: 13px;">Phone Number <span class="text-danger">*</span></label>
+                        <div class="input-group shadow-sm" style="border-radius: 8px;">
+                            <span class="input-group-text bg-light border-end-0" style="border-radius: 8px 0 0 8px; color: #1479ff;"><i class="fas fa-phone-alt"></i></span>
+                            <input type="text" class="form-control border-start-0 ps-0" id="phone" name="phone" placeholder="+1 234 567 8900" style="border-radius: 0 8px 8px 0; box-shadow: none;" required>
+                        </div>
+                    </div>
+
+                    <!-- WhatsApp -->
+                    <div class="form-group">
+                        <label for="whatsapp" class="form-label text-secondary fw-medium" style="font-size: 13px;">WhatsApp</label>
+                        <div class="input-group shadow-sm" style="border-radius: 8px;">
+                            <span class="input-group-text bg-light border-end-0" style="border-radius: 8px 0 0 8px; color: #25d366;"><i class="fab fa-whatsapp"></i></span>
+                            <input type="text" class="form-control border-start-0 ps-0" id="whatsapp" name="whatsapp" placeholder="+1 234 567 8900" style="border-radius: 0 8px 8px 0; box-shadow: none;">
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-5 border-light">
+                <h5 class="fw-bold mb-4" style="color: #172033;"><i class="fas fa-hashtag me-2 text-primary"></i> Social Media Links</h5>
+
+                <div class="contact-form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <!-- Facebook -->
+                    <div class="form-group">
+                        <label for="facebook" class="form-label text-secondary fw-medium" style="font-size: 13px;">Facebook URL</label>
+                        <div class="input-group shadow-sm" style="border-radius: 8px;">
+                            <span class="input-group-text bg-light border-end-0" style="border-radius: 8px 0 0 8px; color: #1877f2;"><i class="fab fa-facebook-f"></i></span>
+                            <input type="text" class="form-control border-start-0 ps-0" id="facebook" name="facebook" placeholder="https://facebook.com/..." style="border-radius: 0 8px 8px 0; box-shadow: none;">
+                        </div>
+                    </div>
+
+                    <!-- YouTube -->
+                    <div class="form-group">
+                        <label for="youtube" class="form-label text-secondary fw-medium" style="font-size: 13px;">YouTube URL</label>
+                        <div class="input-group shadow-sm" style="border-radius: 8px;">
+                            <span class="input-group-text bg-light border-end-0" style="border-radius: 8px 0 0 8px; color: #ff0000;"><i class="fab fa-youtube"></i></span>
+                            <input type="text" class="form-control border-start-0 ps-0" id="youtube" name="youtube" placeholder="https://youtube.com/..." style="border-radius: 0 8px 8px 0; box-shadow: none;">
+                        </div>
+                    </div>
+
+                    <!-- Twitter -->
+                    <div class="form-group">
+                        <label for="twitter" class="form-label text-secondary fw-medium" style="font-size: 13px;">Twitter URL</label>
+                        <div class="input-group shadow-sm" style="border-radius: 8px;">
+                            <span class="input-group-text bg-light border-end-0 text-secondary" style="border-radius: 8px 0 0 8px;"><i class="fab fa-twitter"></i></span>
+                            <input type="text" class="form-control border-start-0 ps-0" id="twitter" name="twitter" placeholder="https://twitter.com/..." style="border-radius: 0 8px 8px 0; box-shadow: none;">
+                        </div>
+                    </div>
+
+                    <!-- Instagram -->
+                    <div class="form-group">
+                        <label for="instagram" class="form-label text-secondary fw-medium" style="font-size: 13px;">Instagram URL</label>
+                        <div class="input-group shadow-sm" style="border-radius: 8px;">
+                            <span class="input-group-text bg-light border-end-0" style="border-radius: 8px 0 0 8px; color: #e1306c;"><i class="fab fa-instagram"></i></span>
+                            <input type="text" class="form-control border-start-0 ps-0" id="instagram" name="instagram" placeholder="https://instagram.com/..." style="border-radius: 0 8px 8px 0; box-shadow: none;">
+                        </div>
+                    </div>
+
+                    <!-- Dribbble -->
+                    <div class="form-group">
+                        <label for="dribbble" class="form-label text-secondary fw-medium" style="font-size: 13px;">Dribbble URL</label>
+                        <div class="input-group shadow-sm" style="border-radius: 8px;">
+                            <span class="input-group-text bg-light border-end-0" style="border-radius: 8px 0 0 8px; color: #ea4c89;"><i class="fab fa-dribbble"></i></span>
+                            <input type="text" class="form-control border-start-0 ps-0" id="dribbble" name="dribbble" placeholder="https://dribbble.com/..." style="border-radius: 0 8px 8px 0; box-shadow: none;">
+                        </div>
+                    </div>
+
+                    <!-- Behance -->
+                    <div class="form-group">
+                        <label for="behance" class="form-label text-secondary fw-medium" style="font-size: 13px;">Behance URL</label>
+                        <div class="input-group shadow-sm" style="border-radius: 8px;">
+                            <span class="input-group-text bg-light border-end-0" style="border-radius: 8px 0 0 8px; color: #1769ff;"><i class="fab fa-behance"></i></span>
+                            <input type="text" class="form-control border-start-0 ps-0" id="behance" name="behance" placeholder="https://behance.net/..." style="border-radius: 0 8px 8px 0; box-shadow: none;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-5 pt-3 border-top text-end">
+                    <button type="submit" class="btn btn-primary px-5 py-2 shadow-sm" style="background: #1479ff; border: none; border-radius: 8px; font-weight: 600;">
+                        <i class="fas fa-plus me-2"></i> Create Support Setting
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
-    
-    </div>
-    
+</div>
 
 @include('admin.layouts.footer')

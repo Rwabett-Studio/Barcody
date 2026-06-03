@@ -20,20 +20,18 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::with(['category', 'user'])->get();
-    
-$qrData = '';
-foreach ($events as $event) {
-    $qrData .= "Event Name: " . $event->name . "\n";
-    $qrData .= "Date: " . $event->date . "\n";
-    // $qrData .= "Time: " . $event->time . "\n";
-    // $qrData .= "Location: " . $event->location . "\n";
-    $qrData .= "-----------------------------\n";
-}
+        $qrCodes = [];
 
-$qrCode = QrCode::encoding('UTF-8')->size(100)->generate($qrData);
+        foreach ($events as $event) {
+            $qrData = "Event Name: {$event->name}\n";
+            $qrData .= "Date: {$event->date}\n";
+            $qrData .= "Time: {$event->time}\n";
+            $qrData .= "Location: {$event->location}\n";
 
+            $qrCodes[$event->id] = QrCode::encoding('UTF-8')->size(220)->generate($qrData);
+        }
         
-        return view('admin.events.index', compact('events', 'qrCode'));
+        return view('admin.events.index', compact('events', 'qrCodes'));
     }
 
     public function create()

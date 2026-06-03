@@ -40,34 +40,7 @@ class InformationController extends Controller
             'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        if ($request->hasFile('logo')) {
-            $validatedData['logo'] = $request->file('logo')->store('information-sections', 'public');
-        }
-        
-        
-       if ($request->hasFile('icon1')) {
-            $validatedData['icon1'] = $request->file('icon1')->store('information-sections', 'public');
-        }
-       if ($request->hasFile('icon2')) {
-            $validatedData['icon2'] = $request->file('icon2')->store('information-sections', 'public');
-        }
-        if ($request->hasFile('icon3')) {
-            $validatedData['icon3'] = $request->file('icon3')->store('information-sections', 'public');
-        }
-      if ($request->hasFile('icon4')) {
-            $validatedData['icon4'] = $request->file('icon4')->store('information-sections', 'public');
-        }
-        
-        
-        if ($request->hasFile('image_app1')) {
-            $validatedData['image_app1'] = $request->file('image_app1')->store('information-sections', 'public');
-        }
-        if ($request->hasFile('image_app2')) {
-            $validatedData['image_app2'] = $request->file('image_app2')->store('information-sections', 'public');
-        }
-        if ($request->hasFile('main_image')) {
-            $validatedData['main_image'] = $request->file('main_image')->store('information-sections', 'public');
-        }
+        $validatedData = $this->syncUploadedImages($request, $validatedData);
 
         Information::create($validatedData);
 
@@ -91,43 +64,20 @@ class InformationController extends Controller
             'name' => 'required|string|max:255',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'icon1' => 'nullable|string|max:255',
+            'icon1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title1' => 'nullable|string|max:255',
-            'icon2' => 'nullable|string|max:255',
+            'icon2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title2' => 'nullable|string|max:255',
-            'icon3' => 'nullable|string|max:255',
+            'icon3' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title3' => 'nullable|string|max:255',
-            'icon4' => 'nullable|string|max:255',
+            'icon4' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title4' => 'nullable|string|max:255',
             'image_app1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'image_app2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        if ($request->hasFile('logo')) {
-            if ($information->logo && Storage::disk('public')->exists($information->logo)) {
-                Storage::disk('public')->delete($information->logo);
-            }
-            $validatedData['logo'] = $request->file('logo')->store('information-sections', 'public');
-        }
-        if ($request->hasFile('image_app1')) {
-            if ($information->image_app1 && Storage::disk('public')->exists($information->image_app1)) {
-                Storage::disk('public')->delete($information->image_app1);
-            }
-            $validatedData['image_app1'] = $request->file('image_app1')->store('information-sections', 'public');
-        }
-        if ($request->hasFile('image_app2')) {
-            if ($information->image_app2 && Storage::disk('public')->exists($information->image_app2)) {
-                Storage::disk('public')->delete($information->image_app2);
-            }
-            $validatedData['image_app2'] = $request->file('image_app2')->store('information-sections', 'public');
-        }
-        if ($request->hasFile('main_image')) {
-            if ($information->main_image && Storage::disk('public')->exists($information->main_image)) {
-                Storage::disk('public')->delete($information->main_image);
-            }
-            $validatedData['main_image'] = $request->file('main_image')->store('information-sections', 'public');
-        }
+        $validatedData = $this->syncUploadedImages($request, $validatedData, $information);
 
         $information->update($validatedData);
 
@@ -136,18 +86,7 @@ class InformationController extends Controller
 
     public function destroy(Information $information)
     {
-        if ($information->logo && Storage::disk('public')->exists($information->logo)) {
-            Storage::disk('public')->delete($information->logo);
-        }
-        if ($information->image_app1 && Storage::disk('public')->exists($information->image_app1)) {
-            Storage::disk('public')->delete($information->image_app1);
-        }
-        if ($information->image_app2 && Storage::disk('public')->exists($information->image_app2)) {
-            Storage::disk('public')->delete($information->image_app2);
-        }
-        if ($information->main_image && Storage::disk('public')->exists($information->main_image)) {
-            Storage::disk('public')->delete($information->main_image);
-        }
+        $this->deleteUploadedImages($information);
 
         $information->delete();
 
@@ -179,31 +118,20 @@ class InformationController extends Controller
             'name' => 'required|string|max:255',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'icon1' => 'nullable|string|max:255',
+            'icon1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title1' => 'nullable|string|max:255',
-            'icon2' => 'nullable|string|max:255',
+            'icon2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title2' => 'nullable|string|max:255',
-            'icon3' => 'nullable|string|max:255',
+            'icon3' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title3' => 'nullable|string|max:255',
-            'icon4' => 'nullable|string|max:255',
+            'icon4' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title4' => 'nullable|string|max:255',
             'image_app1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'image_app2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        if ($request->hasFile('logo')) {
-            $validatedData['logo'] = $request->file('logo')->store('information-sections', 'public');
-        }
-        if ($request->hasFile('image_app1')) {
-            $validatedData['image_app1'] = $request->file('image_app1')->store('information-sections', 'public');
-        }
-        if ($request->hasFile('image_app2')) {
-            $validatedData['image_app2'] = $request->file('image_app2')->store('information-sections', 'public');
-        }
-        if ($request->hasFile('main_image')) {
-            $validatedData['main_image'] = $request->file('main_image')->store('information-sections', 'public');
-        }
+        $validatedData = $this->syncUploadedImages($request, $validatedData);
 
         $information = Information::create($validatedData);
 
@@ -221,43 +149,20 @@ class InformationController extends Controller
             'name' => 'sometimes|required|string|max:255',
             'title' => 'sometimes|required|string|max:255',
             'description' => 'sometimes|required|string',
-            'icon1' => 'nullable|string|max:255',
+            'icon1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title1' => 'nullable|string|max:255',
-            'icon2' => 'nullable|string|max:255',
+            'icon2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title2' => 'nullable|string|max:255',
-            'icon3' => 'nullable|string|max:255',
+            'icon3' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title3' => 'nullable|string|max:255',
-            'icon4' => 'nullable|string|max:255',
+            'icon4' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title4' => 'nullable|string|max:255',
             'image_app1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'image_app2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        if ($request->hasFile('logo')) {
-            if ($information->logo && Storage::disk('public')->exists($information->logo)) {
-                Storage::disk('public')->delete($information->logo);
-            }
-            $validatedData['logo'] = $request->file('logo')->store('information-sections', 'public');
-        }
-        if ($request->hasFile('image_app1')) {
-            if ($information->image_app1 && Storage::disk('public')->exists($information->image_app1)) {
-                Storage::disk('public')->delete($information->image_app1);
-            }
-            $validatedData['image_app1'] = $request->file('image_app1')->store('information-sections', 'public');
-        }
-        if ($request->hasFile('image_app2')) {
-            if ($information->image_app2 && Storage::disk('public')->exists($information->image_app2)) {
-                Storage::disk('public')->delete($information->image_app2);
-            }
-            $validatedData['image_app2'] = $request->file('image_app2')->store('information-sections', 'public');
-        }
-        if ($request->hasFile('main_image')) {
-            if ($information->main_image && Storage::disk('public')->exists($information->main_image)) {
-                Storage::disk('public')->delete($information->main_image);
-            }
-            $validatedData['main_image'] = $request->file('main_image')->store('information-sections', 'public');
-        }
+        $validatedData = $this->syncUploadedImages($request, $validatedData, $information);
 
         $information->update($validatedData);
 
@@ -270,18 +175,7 @@ class InformationController extends Controller
 
     public function apiDestroy(Information $information)
     {
-        if ($information->logo && Storage::disk('public')->exists($information->logo)) {
-            Storage::disk('public')->delete($information->logo);
-        }
-        if ($information->image_app1 && Storage::disk('public')->exists($information->image_app1)) {
-            Storage::disk('public')->delete($information->image_app1);
-        }
-        if ($information->image_app2 && Storage::disk('public')->exists($information->image_app2)) {
-            Storage::disk('public')->delete($information->image_app2);
-        }
-        if ($information->main_image && Storage::disk('public')->exists($information->main_image)) {
-            Storage::disk('public')->delete($information->main_image);
-        }
+        $this->deleteUploadedImages($information);
 
         $information->delete();
 
@@ -289,5 +183,36 @@ class InformationController extends Controller
             'success' => true,
             'message' => 'Information Section deleted successfully.'
         ]);
+    }
+
+    private function imageFields(): array
+    {
+        return ['logo', 'icon1', 'icon2', 'icon3', 'icon4', 'image_app1', 'image_app2', 'main_image'];
+    }
+
+    private function syncUploadedImages(Request $request, array $validatedData, ?Information $information = null): array
+    {
+        foreach ($this->imageFields() as $field) {
+            if (!$request->hasFile($field)) {
+                continue;
+            }
+
+            if ($information && $information->{$field} && Storage::disk('public')->exists($information->{$field})) {
+                Storage::disk('public')->delete($information->{$field});
+            }
+
+            $validatedData[$field] = $request->file($field)->store('information-sections', 'public');
+        }
+
+        return $validatedData;
+    }
+
+    private function deleteUploadedImages(Information $information): void
+    {
+        foreach ($this->imageFields() as $field) {
+            if ($information->{$field} && Storage::disk('public')->exists($information->{$field})) {
+                Storage::disk('public')->delete($information->{$field});
+            }
+        }
     }
 }

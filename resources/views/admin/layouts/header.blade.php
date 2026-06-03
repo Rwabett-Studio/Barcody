@@ -8,7 +8,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdn.datatables.net/v/bs5/dt-2.2.1/r-3.0.3/datatables.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('admin/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/css/style.css') }}?v=20260602j">
     <!--<link rel="stylesheet" href="admin/css/style_ar.css">-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -182,6 +182,7 @@
       </div>
       
     </div>
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
     <!-- header  -->
     <div class="offset-lg-2 header d-flex align-items-center justify-content-between">
         <button class="myBtn1" id="openbtn" onclick="openNav()"><i class="fa-solid fa-angle-right"></i></button> 
@@ -214,22 +215,15 @@
             </ul>
           </div> --}}
           <!-- profile  -->
-          <div class="dropdown profileDrobdown ">
-            <button class="btn d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <div class="position-relative me-2">
+          <form action="{{ route('logout') }}" method="POST" class="logoutTopbarForm">
+            @csrf
+            <button type="submit" class="btn logoutTopbarCard d-flex align-items-center gap-2">
+              <div class="position-relative me-1">
                 <img src="admin/img/user.png" alt=""><span></span>
-              </div><i class="fa-solid fa-angle-down text-secondary"></i>
+              </div>
+              <span class="logoutTopbarText">Logout</span>
+              <i class="fa-solid fa-right-from-bracket logoutTopbarIcon ms-auto"></i>
             </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">
-                <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                  @csrf <!-- This is important for CSRF protection -->
-                  <button type="submit" class="btn btn-danger">Logout</button>
-                 </form>  
-              </a></li>
-              {{-- <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li> --}}
-            </ul>
-          </div>
+          </form>
         </div>
     </div>
