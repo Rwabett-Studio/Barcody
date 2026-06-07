@@ -32,9 +32,9 @@ class AuthController extends Controller
     {
         // Check if the user is already authenticated
         if (Auth::check()) {
-            return view('admin.index', $this->dashboardStats()); 
+            return view('admin.index', $this->dashboardStats());
         }
-    
+
         // If not authenticated, show the login form
         return view('admin.auth.signIn');
     }
@@ -82,7 +82,7 @@ class AuthController extends Controller
 
         // Redirect to admin dashboard after successful login
         // return redirect()->route('admin.index')->with('success', 'Logged in successfully!');
-        return view('admin.index', $this->dashboardStats()); 
+        return view('admin.index', $this->dashboardStats());
     }
 
     public function logout()
