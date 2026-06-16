@@ -35,7 +35,7 @@
 </div>
 
 <div class="contact-field contact-field-full">
-    <label for="wa_template_params">Template Variables — متغير في كل سطر (بالترتيب {{ '{{1}}, {{2}}...' }})</label>
+    <label for="wa_template_params">Template Variables — متغير في كل سطر (بالترتيب @{{1}}, @{{2}}...)</label>
     <textarea name="wa_template_params" id="wa_template_params" rows="6"
               class="form-control contact-input settings-textarea"
               placeholder="{event_name}&#10;{contact_name}&#10;{event_date}&#10;{event_location}&#10;{invite_link}">{{ $tplParamsText }}</textarea>
@@ -48,6 +48,6 @@
         <code>{event_location}</code>
         <code>{guests_count}</code>
         <code>{invite_link}</code>
-        — اكتب كل قيمة لـ <code>{{ '{{n}}' }}</code> في سطر منفصل بنفس ترتيب التمبليت.
+        — اكتب كل قيمة لـ <code>@{{n}}</code> في سطر منفصل بنفس ترتيب التمبليت.
     </small>
 </div>
