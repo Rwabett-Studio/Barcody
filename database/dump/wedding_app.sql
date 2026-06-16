@@ -21,7 +21,7 @@
 
 /*!40000 DROP DATABASE IF EXISTS `wedding_app`*/;
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `wedding_app` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `wedding_app` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
 USE `wedding_app`;
 
@@ -70,7 +70,7 @@ CREATE TABLE `categories` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,7 +79,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (2,'?????',NULL,'2026-05-31 17:37:54','2026-05-31 17:37:54'),(4,'?????',NULL,'2026-05-31 17:39:53','2026-05-31 17:39:53'),(5,'?????2',NULL,'2026-05-31 17:40:30','2026-05-31 17:40:30'),(6,'?????_final',NULL,'2026-05-31 17:42:08','2026-05-31 17:42:08');
+INSERT INTO `categories` VALUES (1,'RSVP',NULL,'2026-06-16 11:18:46','2026-06-16 11:18:46'),(2,'RSVP',NULL,'2026-06-16 11:19:55','2026-06-16 11:19:55'),(3,'Regression Cat',NULL,'2026-06-16 11:25:38','2026-06-16 11:25:38');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -99,14 +99,18 @@ CREATE TABLE `contacts` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `event_id` bigint unsigned DEFAULT NULL,
+  `invitation_token` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `invited` tinyint(1) NOT NULL DEFAULT '0',
   `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `guests_count` int unsigned DEFAULT NULL,
+  `qr_path` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `invited_at` timestamp NULL DEFAULT NULL,
   `responded_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `contacts_invitation_token_unique` (`invitation_token`),
   KEY `contacts_event_id_foreign` (`event_id`),
   CONSTRAINT `contacts_event_id_foreign` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,6 +119,7 @@ CREATE TABLE `contacts` (
 
 LOCK TABLES `contacts` WRITE;
 /*!40000 ALTER TABLE `contacts` DISABLE KEYS */;
+INSERT INTO `contacts` VALUES (1,'mr','??? ??????','966512345678',NULL,'2026-06-16 11:19:56','2026-06-16 11:22:49',1,'coJmlFHNNe8YNzOqqyP5T4SX4RHyU1qv5LLEUusr',1,'accepted',3,'qrcodes/contact_1.png','2026-06-16 11:19:56','2026-06-16 11:22:48'),(2,'mrs','??? ????','966599998888',NULL,'2026-06-16 11:20:02','2026-06-16 11:20:50',1,'yaBbnEWQa0YOJz7APKRpF4WzF86rQxx4DfD8vMoZ',0,'declined',NULL,NULL,NULL,'2026-06-16 11:20:50'),(3,'mr','Reg Contact','966577776666',NULL,'2026-06-16 11:25:38','2026-06-16 11:25:38',2,'8GoF7kLlaHVPexx3vRH1CWyTyu4MifszQsL2dtcA',0,'pending',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `contacts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -141,7 +146,7 @@ CREATE TABLE `coupons` (
   UNIQUE KEY `coupons_code_unique` (`code`),
   KEY `coupons_plan_id_foreign` (`plan_id`),
   CONSTRAINT `coupons_plan_id_foreign` FOREIGN KEY (`plan_id`) REFERENCES `plans` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -150,7 +155,6 @@ CREATE TABLE `coupons` (
 
 LOCK TABLES `coupons` WRITE;
 /*!40000 ALTER TABLE `coupons` DISABLE KEYS */;
-INSERT INTO `coupons` VALUES (3,'TEST20','percentage',20.00,NULL,NULL,0,NULL,1,'2026-06-02 10:10:38','2026-06-02 10:10:38'),(4,'FIXED10','fixed',10.00,1,5,0,'2026-07-02 10:10:38',1,'2026-06-02 10:10:38','2026-06-02 10:10:38');
 /*!40000 ALTER TABLE `coupons` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -197,7 +201,7 @@ CREATE TABLE `events` (
   `description` text COLLATE utf8mb4_unicode_ci,
   `thumbnail_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date` date NOT NULL,
-  `time` time DEFAULT NULL,
+  `time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `maps` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `qr_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -211,7 +215,7 @@ CREATE TABLE `events` (
   KEY `events_user_id_foreign` (`user_id`),
   CONSTRAINT `events_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL,
   CONSTRAINT `events_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -220,6 +224,7 @@ CREATE TABLE `events` (
 
 LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
+INSERT INTO `events` VALUES (1,'??? RSVP','?????',NULL,'2026-08-01','20:00','????','https://maps.google.com',NULL,'published','2026-06-16 11:19:55','2026-06-16 11:19:55',2,1),(2,'Regression Event','x',NULL,'2026-09-01','19:00','Hall','https://m.com',NULL,'published','2026-06-16 11:25:38','2026-06-16 11:25:39',3,1);
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -296,7 +301,7 @@ CREATE TABLE `herosections` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -305,18 +310,17 @@ CREATE TABLE `herosections` (
 
 LOCK TABLES `herosections` WRITE;
 /*!40000 ALTER TABLE `herosections` DISABLE KEYS */;
-INSERT INTO `herosections` VALUES (1,'Shana Higgins','Dicta aute deleniti','Exercitation incidun',NULL,NULL,NULL,'2026-05-31 17:25:13','2026-05-31 17:25:13');
 /*!40000 ALTER TABLE `herosections` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `how_use_barcodies`
+-- Table structure for table `how_use_barcodys`
 --
 
-DROP TABLE IF EXISTS `how_use_barcodies`;
+DROP TABLE IF EXISTS `how_use_barcodys`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `how_use_barcodies` (
+CREATE TABLE `how_use_barcodys` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -324,17 +328,16 @@ CREATE TABLE `how_use_barcodies` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `how_use_barcodies`
+-- Dumping data for table `how_use_barcodys`
 --
 
-LOCK TABLES `how_use_barcodies` WRITE;
-/*!40000 ALTER TABLE `how_use_barcodies` DISABLE KEYS */;
-INSERT INTO `how_use_barcodies` VALUES (1,'how-use-barcodies/dLxdnUnW9G0pbShzo0jecXQ8BL8P1O2Ks3B4bAqT.jpg','Error accusantium si','Voluptatem doloremq','2026-05-31 17:25:36','2026-05-31 17:25:36');
-/*!40000 ALTER TABLE `how_use_barcodies` ENABLE KEYS */;
+LOCK TABLES `how_use_barcodys` WRITE;
+/*!40000 ALTER TABLE `how_use_barcodys` DISABLE KEYS */;
+/*!40000 ALTER TABLE `how_use_barcodys` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -353,7 +356,7 @@ CREATE TABLE `inboxlists` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -362,18 +365,17 @@ CREATE TABLE `inboxlists` (
 
 LOCK TABLES `inboxlists` WRITE;
 /*!40000 ALTER TABLE `inboxlists` DISABLE KEYS */;
-INSERT INTO `inboxlists` VALUES (1,'????','a@test.com','966500000000','?????','2026-05-31 18:48:39','2026-05-31 18:48:39'),(2,'أحمد','ahmed@test.com','966500000000','رسالة تجريبية','2026-05-31 18:51:55','2026-05-31 18:51:55'),(3,'أحمد','ahmed@test.com','966500000000','رسالة تجريبية','2026-05-31 18:52:53','2026-05-31 18:52:53');
 /*!40000 ALTER TABLE `inboxlists` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `information`
+-- Table structure for table `informations`
 --
 
-DROP TABLE IF EXISTS `information`;
+DROP TABLE IF EXISTS `informations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `information` (
+CREATE TABLE `informations` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `logo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -397,12 +399,12 @@ CREATE TABLE `information` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `information`
+-- Dumping data for table `informations`
 --
 
-LOCK TABLES `information` WRITE;
-/*!40000 ALTER TABLE `information` DISABLE KEYS */;
-/*!40000 ALTER TABLE `information` ENABLE KEYS */;
+LOCK TABLES `informations` WRITE;
+/*!40000 ALTER TABLE `informations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `informations` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -443,7 +445,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -452,7 +454,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (1,'2014_10_12_000000_create_users_table',1),(2,'2014_10_12_100000_create_password_resets_table',1),(3,'2019_08_19_000000_create_failed_jobs_table',1),(4,'2019_12_14_000001_create_personal_access_tokens_table',1),(5,'2025_02_11_001440_create_events_table',1),(6,'2025_02_11_001458_create_categories_table',1),(7,'2025_02_11_001523_create_attendees_table',1),(8,'2025_02_11_001536_create_settings_table',1),(9,'2025_02_11_001938_create_event_categories_table',1),(10,'2025_02_11_002316_create_social_media_table',1),(11,'2025_02_16_211457_create_inboxlists_table',1),(12,'2025_02_16_211807_create_supportsettings_table',1),(13,'2025_03_21_010449_create_contacts_table',1),(14,'2025_03_22_000000_create_missing_tables',2),(15,'2025_03_23_000000_add_otp_fields_to_users_table',3),(16,'2025_03_24_000000_fix_contacts_and_users_columns',4),(17,'2025_03_25_000000_fix_events_columns',5),(18,'2025_03_26_000000_fix_settings_columns',6),(20,'2026_06_02_000001_create_coupons_table',7),(21,'2026_06_02_000002_create_subscriptions_table',8),(22,'2026_06_02_000003_add_stripe_customer_id_to_users',8);
+INSERT INTO `migrations` VALUES (1,'2014_10_12_000000_create_users_table',1),(2,'2014_10_12_100000_create_password_resets_table',1),(3,'2019_08_19_000000_create_failed_jobs_table',1),(4,'2019_12_14_000001_create_personal_access_tokens_table',1),(5,'2025_02_11_001440_create_events_table',1),(6,'2025_02_11_001458_create_categories_table',1),(7,'2025_02_11_001523_create_attendees_table',1),(8,'2025_02_11_001536_create_settings_table',1),(9,'2025_02_11_001938_create_event_categories_table',1),(10,'2025_02_11_002316_create_social_media_table',1),(11,'2025_02_16_211457_create_inboxlists_table',1),(12,'2025_02_16_211807_create_supportsettings_table',1),(13,'2025_03_21_010449_create_contacts_table',1),(14,'2025_03_22_000000_create_missing_tables',1),(15,'2025_03_23_000000_add_otp_fields_to_users_table',1),(16,'2025_03_24_000000_fix_contacts_and_users_columns',1),(17,'2025_03_25_000000_fix_events_columns',1),(18,'2025_03_26_000000_fix_settings_columns',1),(19,'2025_03_27_000000_add_rsvp_fields_to_contacts',1),(20,'2026_06_02_000001_create_coupons_table',1),(21,'2026_06_02_000002_create_subscriptions_table',1),(22,'2026_06_02_000003_add_stripe_customer_id_to_users',1),(23,'2025_03_28_000000_make_events_fields_nullable',2);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -478,7 +480,7 @@ CREATE TABLE `notifications` (
   KEY `notifications_event_id_foreign` (`event_id`),
   CONSTRAINT `notifications_contact_id_foreign` FOREIGN KEY (`contact_id`) REFERENCES `contacts` (`id`) ON DELETE SET NULL,
   CONSTRAINT `notifications_event_id_foreign` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -487,6 +489,7 @@ CREATE TABLE `notifications` (
 
 LOCK TABLES `notifications` WRITE;
 /*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
+INSERT INTO `notifications` VALUES (1,1,1,'response','??? ?????? - أكّد الحضور','accepted',NULL,'2026-06-16 11:20:49','2026-06-16 11:20:49'),(2,2,1,'response','??? ???? - اعتذر عن الحضور','declined',NULL,'2026-06-16 11:20:50','2026-06-16 11:20:50'),(3,1,1,'response','??? ?????? - أكّد الحضور','accepted',NULL,'2026-06-16 11:22:48','2026-06-16 11:22:48');
 /*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -535,7 +538,7 @@ CREATE TABLE `personal_access_tokens` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
   KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -544,7 +547,7 @@ CREATE TABLE `personal_access_tokens` (
 
 LOCK TABLES `personal_access_tokens` WRITE;
 /*!40000 ALTER TABLE `personal_access_tokens` DISABLE KEYS */;
-INSERT INTO `personal_access_tokens` VALUES (4,'App\\Models\\User',4,'test2','a6dd3ea8f29d772276f94f2b84f9cd9374118e85c6fd3c31cf574d24bca23790','[\"*\"]','2026-05-31 17:40:33',NULL,'2026-05-31 17:40:27','2026-05-31 17:40:33'),(5,'App\\Models\\User',4,'test3','d39af0cd8ac7bcb4311ed7ba9f47605f18d00025ab56fdf2669f58684d0c0e27','[\"*\"]',NULL,NULL,'2026-05-31 17:40:50','2026-05-31 17:40:50'),(6,'App\\Models\\User',4,'test4','bb5b947585b6c0bd3c6f3f0e8301741c8f47deb1239759b4e35b32d87c23b87e','[\"*\"]',NULL,NULL,'2026-05-31 17:40:50','2026-05-31 17:40:50'),(7,'App\\Models\\User',4,'final','714d90aacd7e1c6b4a23c0a93cc6a6ca63bbb62abd1040f1202e437cf469a4de','[\"*\"]','2026-05-31 17:42:11',NULL,'2026-05-31 17:42:05','2026-05-31 17:42:11'),(12,'App\\Models\\User',7,'postman','359da188ec876747f139e06df29f27738cc67ffbf98fec825603a8156967b45d','[\"*\"]','2026-05-31 18:52:59',NULL,'2026-05-31 18:49:49','2026-05-31 18:52:59');
+INSERT INTO `personal_access_tokens` VALUES (1,'App\\Models\\User',1,'rsvp','42ab55c2d136cd5646761a081e111f13e0b2d7384e344186a3acf81df2d8801f','[\"*\"]','2026-06-16 11:25:39',NULL,'2026-06-16 11:18:15','2026-06-16 11:25:39');
 /*!40000 ALTER TABLE `personal_access_tokens` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -567,7 +570,7 @@ CREATE TABLE `plans` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -576,7 +579,6 @@ CREATE TABLE `plans` (
 
 LOCK TABLES `plans` WRITE;
 /*!40000 ALTER TABLE `plans` DISABLE KEYS */;
-INSERT INTO `plans` VALUES (1,'Pro Plan',49.99,'100 Events','Unlimited Contacts','QR Codes',NULL,NULL,'2026-06-02 10:10:38','2026-06-02 10:10:38');
 /*!40000 ALTER TABLE `plans` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -598,7 +600,7 @@ CREATE TABLE `settings` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -607,7 +609,6 @@ CREATE TABLE `settings` (
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES (1,'Barcody',NULL,NULL,NULL,'??????','https://m.com','2026-05-31 18:49:32','2026-05-31 18:49:32'),(2,'Barcody',NULL,NULL,NULL,'الرياض','https://maps.google.com','2026-05-31 18:51:52','2026-05-31 18:51:52'),(3,'Barcody',NULL,NULL,NULL,'الرياض','https://maps.google.com','2026-05-31 18:52:50','2026-05-31 18:52:50');
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -629,7 +630,7 @@ CREATE TABLE `social_media` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -638,7 +639,6 @@ CREATE TABLE `social_media` (
 
 LOCK TABLES `social_media` WRITE;
 /*!40000 ALTER TABLE `social_media` DISABLE KEYS */;
-INSERT INTO `social_media` VALUES (1,'info@b.com','966500000000','966500000000',NULL,NULL,NULL,'2026-05-31 18:48:38','2026-05-31 18:48:38'),(2,'info@barcody.com','966500000000','966500000000',NULL,NULL,NULL,'2026-05-31 18:51:53','2026-05-31 18:51:53'),(3,'info@barcody.com','966500000000','966500000000',NULL,NULL,NULL,'2026-05-31 18:52:51','2026-05-31 18:52:51');
 /*!40000 ALTER TABLE `social_media` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -748,7 +748,7 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -757,7 +757,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Admin','admin@barcody.com',NULL,'$2y$10$JZ0mxLJLjSQ8X.7Ts5Ul9O/MyN3dZgSb/S9nhaqbXSDVHVuH.QPGq',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'guest',1,1,1,NULL,'2026-05-31 17:01:50','2026-05-31 17:01:50'),(5,'Test User','test@test.com',NULL,'$2y$10$mj2GfLelSnEVfuz/X68Pa.0cUzqvLJKyUKBv3fp2kawZgD797EQki','966500000001','649544','2026-05-31 18:53:39',NULL,NULL,NULL,NULL,NULL,'guest',1,1,1,NULL,'2026-05-31 18:09:28','2026-05-31 18:43:39'),(6,'Updated Name','updated@test.com',NULL,'$2y$10$QA3rv5ch5nJTQoW/vUswc.5gqKOP3hqc7G0hajUrVGbyTceIuHtb6','966500000099',NULL,NULL,NULL,'2026-05-31 18:12:35',NULL,NULL,NULL,'admin',1,1,1,NULL,'2026-05-31 18:12:35','2026-05-31 18:13:59'),(7,'Updated Name','tester@barcody.com',NULL,'$2y$10$H6BFoJKsn2njSzkOUHUAIuHcaCcpnlp/CXp8rq6MTdqaZmCCS8D4C','971567616368','339045','2026-05-31 19:02:33',NULL,'2026-05-31 18:37:24',NULL,NULL,NULL,'admin',1,1,1,NULL,'2026-05-31 18:25:16','2026-05-31 18:52:33');
+INSERT INTO `users` VALUES (1,'Test User','tester@barcody.com',NULL,'$2y$10$MZ82UmitSEUtRFu8jtztPeTG1mxO1VdRbnNJuLvx8o6nOlSXlfbaK','971567616368',NULL,NULL,NULL,'2026-06-16 11:18:15',NULL,NULL,NULL,'admin',1,1,1,NULL,'2026-06-16 11:18:15','2026-06-16 11:18:15');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -770,4 +770,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-06-08  2:40:19
+-- Dump completed on 2026-06-16 19:27:19

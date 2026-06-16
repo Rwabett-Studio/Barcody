@@ -17,6 +17,8 @@ use App\Http\Controllers\UserauthController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\EventContactController;
+use App\Http\Controllers\CouponController;
+use App\Http\Controllers\SubscriptionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +57,9 @@ Route::prefix('events')->group(function () {
 Route::get('/categories', [CategoryController::class, 'apiIndex']);
 Route::get('/settings', [SettingController::class, 'apiIndex']);
 Route::get('/social-media', [SocialMediaController::class, 'apiIndex']);
+
+// Public: coupon apply check (needs plan_id + code)
+Route::post('/coupons/apply', [CouponController::class, 'apply']);
 Route::get('/inboxlists', [InboxlistController::class, 'apiIndex']);
 Route::get('/support-settings', [SupportsettingController::class, 'apiIndex']);
 Route::get('/notifications', [NotificationController::class, 'index']);
@@ -142,6 +147,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{supportsetting}', [SupportsettingController::class, 'apiUpdate']);
         Route::delete('/{supportsetting}', [SupportsettingController::class, 'apiDestroy']);
     });
+
+    // Subscription Routes
+    Route::post('/subscriptions', [SubscriptionController::class, 'subscribe']);
+    Route::get('/my-subscriptions', [SubscriptionController::class, 'mySubscriptions']);
 
     // Users Routes
     Route::prefix('users')->group(function () {

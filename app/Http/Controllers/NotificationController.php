@@ -42,6 +42,43 @@ class NotificationController extends Controller
         $notification->markAsRead();
         return back()->with('success', 'Notification marked as read');
     }
+
+    /**
+     * Dashboard view of all invitation responses / notifications.
+     */
+    public function dashboard(Request $request)
+    {
+        $query = Notification::with(['contact', 'event'])->latest();
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+        if ($request->filled('event_id')) {
+            $query->where('event_id', $request->event_id);
+        }
+
+        $notifications = $query->paginate(20);
+
+        $stats = [
+            'total'    => Notification::count(),
+            'accepted' => Notification::where('status', 'accepted')->count(),
+            'maybe'    => Notification::where('status', 'maybe')->count(),
+            'declined' => Notification::where('status', 'declined')->count(),
+            'unread'   => Notification::whereNull('read_at')->count(),
+        ];
+
+        $events = \App\Models\Event::orderBy('name')->get(['id', 'name']);
+
+        return view('admin.notifications.index', compact('notifications', 'stats', 'events'));
+    }
+
+    /**
+     * Unread count for the navbar badge (JSON).
+     */
+    public function unreadCount()
+    {
+        return response()->json(['count' => Notification::whereNull('read_at')->count()]);
+    }
     
     
     

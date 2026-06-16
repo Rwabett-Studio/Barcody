@@ -27,6 +27,7 @@ class User extends Authenticatable
         'create_role',
         'edit_role',
         'delete_role',
+        'stripe_customer_id',
     ];
 
     protected $hidden = [
@@ -67,11 +68,19 @@ public function events()
     return $this->hasMany(Event::class);
 }
 
-    // Relationship with Attendees
-    public function attendees()
+        public function attendees()
     {
         return $this->hasMany(Attendee::class);
     }
 
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
 
+    public function activeSubscription()
+    {
+        return $this->hasOne(Subscription::class)->where('status', 'active')
+                    ->where(fn($q) => $q->whereNull('ends_at')->orWhere('ends_at', '>', now()));
+    }
 }

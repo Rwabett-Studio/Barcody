@@ -1576,3 +1576,19 @@
 [2026-05-31 22:43:39] local.INFO: OTP sent successfully {"phone":"966500000001","response":{"status":"success","message_id":1919122,"message_wamid":"wamid.HBgMOTY2NTAwMDAwMDAxFQIAERgSNzQ4Q0JBNjZENkM5OTNFRTQ1AA=="}} 
 [2026-05-31 22:43:40] local.INFO: Attempting to send OTP {"phone":"966500000001","otp":649544,"time":"2026-05-31 22:43:40"} 
 [2026-05-31 22:43:41] local.INFO: OTP sent successfully {"phone":"966500000001","response":{"status":"success","message_id":1919123,"message_wamid":"wamid.HBgMOTY2NTAwMDAwMDAxFQIAERgSQzhCMDNFRTQ2OTJEQzY1NTQ1AA=="}} 
+[2026-05-31 22:51:28] local.INFO: Attempting to send OTP {"phone":"971567616368","otp":844528,"time":"2026-05-31 22:51:28"} 
+[2026-05-31 22:51:29] local.INFO: OTP sent successfully {"phone":"971567616368","response":{"status":"success","message_id":1919124,"message_wamid":"wamid.HBgMOTcxNTY3NjE2MzY4FQIAERgSNzM5RkFCRTJFQjRENzU3ODVBAA=="}} 
+[2026-05-31 22:51:30] local.INFO: Attempting to send OTP {"phone":"971567616368","otp":543626,"time":"2026-05-31 22:51:30"} 
+[2026-05-31 22:51:31] local.INFO: OTP sent successfully {"phone":"971567616368","response":{"status":"success","message_id":1919125,"message_wamid":"wamid.HBgMOTcxNTY3NjE2MzY4FQIAERgSNTU1NTQzNDhEOEY2M0I3MTQ4AA=="}} 
+[2026-05-31 22:51:33] local.INFO: Attempting to send OTP {"phone":"971567616368","otp":207441,"time":"2026-05-31 22:51:33"} 
+[2026-05-31 22:51:34] local.INFO: OTP sent successfully {"phone":"971567616368","response":{"status":"success","message_id":1919126,"message_wamid":"wamid.HBgMOTcxNTY3NjE2MzY4FQIAERgSQjNBQTBFNUI2OENDQkJDMEJCAA=="}} 
+[2026-05-31 22:51:35] local.INFO: Attempting to send OTP {"phone":"971567616368","otp":369743,"time":"2026-05-31 22:51:35"} 
+[2026-05-31 22:51:36] local.INFO: OTP sent successfully {"phone":"971567616368","response":{"status":"success","message_id":1919127,"message_wamid":"wamid.HBgMOTcxNTY3NjE2MzY4FQIAERgSMzEzOUUxMUY2MEMwMDZERUIyAA=="}} 
+[2026-05-31 22:52:26] local.INFO: Attempting to send OTP {"phone":"971567616368","otp":678100,"time":"2026-05-31 22:52:26"} 
+[2026-05-31 22:52:27] local.INFO: OTP sent successfully {"phone":"971567616368","response":{"status":"success","message_id":1919129,"message_wamid":"wamid.HBgMOTcxNTY3NjE2MzY4FQIAERgSNTU3ODgwNERCNDIxNTVBNEE4AA=="}} 
+[2026-05-31 22:52:28] local.INFO: Attempting to send OTP {"phone":"971567616368","otp":263939,"time":"2026-05-31 22:52:28"} 
+[2026-05-31 22:52:29] local.INFO: OTP sent successfully {"phone":"971567616368","response":{"status":"success","message_id":1919130,"message_wamid":"wamid.HBgMOTcxNTY3NjE2MzY4FQIAERgSNURDODE4NDA0MzdFQzNEMzE1AA=="}} 
+[2026-05-31 22:52:31] local.INFO: Attempting to send OTP {"phone":"971567616368","otp":722590,"time":"2026-05-31 22:52:31"} 
+[2026-05-31 22:52:32] local.INFO: OTP sent successfully {"phone":"971567616368","response":{"status":"success","message_id":1919131,"message_wamid":"wamid.HBgMOTcxNTY3NjE2MzY4FQIAERgSQ0U5MEZFNUQxODM2MEYzNkEzAA=="}} 
+[2026-05-31 22:52:33] local.INFO: Attempting to send OTP {"phone":"971567616368","otp":339045,"time":"2026-05-31 22:52:33"} 
+[2026-05-31 22:52:34] local.INFO: OTP sent successfully {"phone":"971567616368","response":{"status":"success","message_id":1919132,"message_wamid":"wamid.HBgMOTcxNTY3NjE2MzY4FQIAERgSNUQwQTIxQTAwMjQyNzg4MkY4AA=="}} 

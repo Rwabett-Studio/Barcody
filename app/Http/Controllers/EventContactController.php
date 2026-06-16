@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use App\Models\Event;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Imports\ContactsImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -320,12 +321,245 @@ private function sendAttendanceOptions($phone)
     {
         $phone = preg_replace('/[^0-9]/', '', $phone);
 
-   
+
 
         return $phone;
     }
 
+    /* =====================================================================
+     |  RSVP INVITATION FLOW (link -> attend/maybe/decline -> QR + notify)
+     ===================================================================== */
 
+    /**
+     * Resolve a contact from either its invitation_token or numeric id.
+     */
+    private function resolveContact($identifier): ?Contact
+    {
+        return Contact::with('event')
+            ->where('invitation_token', $identifier)
+            ->orWhere('id', $identifier)
+            ->first();
+    }
+
+    /**
+     * Public landing page the guest opens from the WhatsApp link.
+     */
+    public function showInvitationResponse($contact_id)
+    {
+        $contact = $this->resolveContact($contact_id);
+
+        if (!$contact || !$contact->event) {
+            abort(404, 'Invitation not found');
+        }
+
+        $event = $contact->event;
+
+        return view('invitations.response', compact('contact', 'event'));
+    }
+
+    /**
+     * Guest submits their response. Records status, fires a notification,
+     * and (if attending / maybe) generates + sends the QR code.
+     */
+    public function processResponse(Request $request, $contact_id)
+    {
+        $request->validate([
+            'status'       => 'required|in:accepted,maybe,declined',
+            'guests_count' => 'nullable|integer|min:1|max:50',
+        ]);
+
+        $contact = $this->resolveContact($contact_id);
+        if (!$contact || !$contact->event) {
+            abort(404, 'Invitation not found');
+        }
+
+        $this->applyResponse($contact, $request->status, $request->guests_count);
+
+        return redirect()->route('invitation.thankyou', ['status' => $request->status]);
+    }
+
+    /**
+     * Shared logic for both web + API responses.
+     * Returns the (possibly generated) public QR url or null.
+     */
+    private function applyResponse(Contact $contact, string $status, $guestsCount = null): ?string
+    {
+        switch ($status) {
+            case 'accepted':
+                $contact->markAsAccepted();
+                break;
+            case 'maybe':
+                $contact->markAsMaybe();
+                break;
+            default:
+                $contact->markAsDeclined();
+                break;
+        }
+
+        if ($guestsCount) {
+            $contact->update(['guests_count' => $guestsCount]);
+        }
+
+        // Notify the event owner of the response (dashboard + API)
+        Notification::create([
+            'contact_id' => $contact->id,
+            'event_id'   => $contact->event_id,
+            'type'       => Notification::TYPE_RESPONSE,
+            'message'    => $this->responseMessage($contact, $status),
+            'status'     => $status,
+        ]);
+
+        // Attending / maybe -> generate & send QR
+        $qrUrl = null;
+        if ($contact->shouldReceiveQr()) {
+            $qrUrl = $this->generateQrForContact($contact);
+            $this->sendQrViaWhatsapp($contact, $qrUrl);
+        }
+
+        return $qrUrl;
+    }
+
+    private function responseMessage(Contact $contact, string $status): string
+    {
+        $map = [
+            'accepted' => 'أكّد الحضور',
+            'maybe'    => 'احتمال يحضر',
+            'declined' => 'اعتذر عن الحضور',
+        ];
+        $label = $map[$status] ?? $status;
+        return "{$contact->name} - {$label}";
+    }
+
+    /**
+     * Generate a QR (encoding the contact's check-in url) and store it.
+     */
+    private function generateQrForContact(Contact $contact): string
+    {
+        $checkinPayload = url('/invitation/checkin/' . $contact->invitation_token);
+
+        // endroid/qr-code uses GD (no imagick dependency)
+        $result = \Endroid\QrCode\Builder\Builder::create()
+            ->writer(new \Endroid\QrCode\Writer\PngWriter())
+            ->data($checkinPayload)
+            ->size(400)
+            ->margin(10)
+            ->build();
+
+        $png = $result->getString();
+
+        $dir = 'qrcodes';
+        Storage::disk('public')->makeDirectory($dir);
+        $path = $dir . '/contact_' . $contact->id . '.png';
+        Storage::disk('public')->put($path, $png);
+
+        $contact->update(['qr_path' => $path]);
+
+        return Storage::disk('public')->url($path);
+    }
+
+    private function sendQrViaWhatsapp(Contact $contact, string $qrUrl): void
+    {
+        try {
+            $client = new \GuzzleHttp\Client(['timeout' => 30, 'verify' => false]);
+            $phone  = preg_replace('/[^0-9]/', '', $contact->phone);
+
+            $client->post('https://app.chatberry.net/api/wpbox/sendmessage', [
+                'headers' => ['Content-Type' => 'application/json', 'Accept' => 'application/json'],
+                'json'    => [
+                    'token'   => env('WHATSAPP_API_TOKEN'),
+                    'phone'   => $phone,
+                    'message' => "شكراً {$contact->name}! هذا رمز الدخول (QR) الخاص بك للحفل. أبرزه عند الوصول.",
+                    'media_url' => $qrUrl,
+                ],
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Failed to send QR via WhatsApp: ' . $e->getMessage(), ['contact' => $contact->id]);
+        }
+    }
+
+    public function showThankYouPage(Request $request)
+    {
+        $status = $request->query('status', 'accepted');
+        return view('invitations.thankyou', compact('status'));
+    }
+
+    /**
+     * Admin: bulk (re)send QR codes to attending / maybe contacts of an event.
+     */
+    public function sendQrCodes(Request $request, Event $event)
+    {
+        $contacts = Contact::where('event_id', $event->id)
+            ->whereIn('status', [Contact::STATUS_ACCEPTED, Contact::STATUS_MAYBE])
+            ->get();
+
+        $results = [];
+        foreach ($contacts as $contact) {
+            $qrUrl = $this->generateQrForContact($contact);
+            $this->sendQrViaWhatsapp($contact, $qrUrl);
+            $results[] = ['contact' => $contact->name, 'phone' => $contact->phone, 'qr' => $qrUrl];
+        }
+
+        if ($request->wantsJson()) {
+            return response()->json(['success' => true, 'sent' => count($results), 'results' => $results]);
+        }
+
+        return back()->with('success', count($results) . ' QR codes sent.');
+    }
+
+    /* ----------------------------- API versions ----------------------------- */
+
+    public function apiSendInvitations(Request $request, Event $event)
+    {
+        return $this->sendInvitations($request, $event);
+    }
+
+    /**
+     * API: guest submits response. Returns the QR url when attending/maybe.
+     */
+    public function apiProcessResponse(Request $request, $contact_id)
+    {
+        $request->validate([
+            'status'       => 'required|in:accepted,maybe,declined',
+            'guests_count' => 'nullable|integer|min:1|max:50',
+        ]);
+
+        $contact = $this->resolveContact($contact_id);
+        if (!$contact || !$contact->event) {
+            return response()->json(['success' => false, 'message' => 'Invitation not found'], 404);
+        }
+
+        $qrUrl = $this->applyResponse($contact, $request->status, $request->guests_count);
+
+        return response()->json([
+            'success'  => true,
+            'message'  => 'Response recorded',
+            'status'   => $contact->fresh()->status,
+            'qr_code'  => $qrUrl,
+            'contact'  => $contact->only(['id', 'name', 'phone', 'status', 'guests_count']),
+        ]);
+    }
+
+    public function apiShowThankYouPage()
+    {
+        return response()->json(['success' => true, 'message' => 'Thank you for your response']);
+    }
+
+    /**
+     * Public check-in scan endpoint (admin scans the QR at the door).
+     */
+    public function checkin($token)
+    {
+        $contact = Contact::with('event')->where('invitation_token', $token)->first();
+        if (!$contact) {
+            abort(404, 'Invalid QR');
+        }
+
+        return response()->json([
+            'success' => true,
+            'contact' => $contact->only(['id', 'name', 'phone', 'status', 'guests_count']),
+            'event'   => $contact->event->only(['id', 'name', 'date', 'location']),
+        ]);
+    }
 }
 
 

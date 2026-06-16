@@ -21,6 +21,8 @@ use App\Http\Controllers\LandingPage\InvitationCategorieController;
 use App\Http\Controllers\LandingPage\PlanController;
 use App\Http\Controllers\LandingPage\FaqController;
 use App\Http\Controllers\LandingPage\InformationController;
+use App\Http\Controllers\CouponController;
+use App\Http\Controllers\SubscriptionController;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
@@ -334,6 +336,16 @@ Route::get('/invitation/thankyou', [EventContactController::class, 'showThankYou
     
 Route::post('/events/{event}/contacts/send-qrcodes', [EventContactController::class, 'sendQrCodes'])
     ->name('event.contacts.send.qrcodes');
+
+// Public QR check-in (scanned at the door)
+Route::get('/invitation/checkin/{token}', [EventContactController::class, 'checkin'])
+    ->name('invitation.checkin');
+
+// Notifications dashboard (responses overview)
+Route::get('/notifications-board', [\App\Http\Controllers\NotificationController::class, 'dashboard'])
+    ->name('notifications.board');
+Route::get('/notifications/unread-count', [\App\Http\Controllers\NotificationController::class, 'unreadCount'])
+    ->name('notifications.unread');
     
     
     
@@ -393,6 +405,13 @@ Route::post('/webhook-data', [App\Http\Controllers\EventContactController::class
 
 
 Route::post('/webhook/test', [EventContactController::class, 'handlewebhook']);
+
+// Coupon admin routes
+Route::resource('coupons', CouponController::class)->except(['show']);
+
+// Subscription admin routes
+Route::get('subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions.index');
+Route::get('subscriptions/{subscription}', [SubscriptionController::class, 'show'])->name('subscriptions.show');
 
 
 
