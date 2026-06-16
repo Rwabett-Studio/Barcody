@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Contact;
 use App\Models\Event;
 use App\Models\Notification;
+use App\Services\WhatsappService;
 use Illuminate\Http\Request;
 use App\Imports\ContactsImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -19,6 +20,13 @@ use Illuminate\Support\Facades\DB;
 
 class EventContactController extends Controller
 {
+    protected WhatsappService $whatsapp;
+
+    public function __construct(WhatsappService $whatsapp)
+    {
+        $this->whatsapp = $whatsapp;
+    }
+
     public function index(Event $event)
     {
         $contacts = Contact::where('event_id', $event->id)->get();
@@ -137,75 +145,17 @@ class EventContactController extends Controller
 
 private function sendWhatsappTemplateMessage($phone, $contact, $event)
 {
-    try {
-        $client = new \GuzzleHttp\Client([
-            'timeout' => 30,
-            'verify'  => false,
-        ]);
+    $cfg = config('services.chatberry');
 
-        $formattedPhone = preg_replace('/[^0-9]/', '', $phone);
+    // Personalised invitation link the guest will open
+    $inviteLink = url('/invitation/response/' . $contact->invitation_token);
 
-        $imageUrl = "https://onsyntax.com/front-end/img/hero_mob.png";
-
-        $requestData = [
-            "token" => env("WHATSAPP_API_TOKEN"),
-            "phone" => $formattedPhone,
-            "template_name" => "waled_text",
-            "template_language" => "ar",
-            "components" => [
-                [
-                    "type" => "header",
-                    "parameters" => [
-                        [
-                            "type" => "image",
-                            "image" => [
-                                "link" => $imageUrl
-                            ]
-                        ]
-                    ]
-                ],
-                [
-                    "type" => "body",
-                    "parameters" => [
-                        [
-                            "type" => "text",
-                            "text" => $contact->name
-                        ]
-                    ]
-                ]
-            ]
-        ];
-
-        $response = $client->post(
-            "https://app.chatberry.net/api/wpbox/sendtemplatemessage",
-            [
-                "headers" => [
-                    "Content-Type" => "application/json",
-                    "Accept" => "application/json",
-                ],
-                "json" => $requestData
-            ]
-        );
-
-        $responseBody = json_decode($response->getBody()->getContents(), true);
-
-        return [
-            "success" => $response->getStatusCode() === 200
-                && ($responseBody['status'] ?? false),
-            "error" => $responseBody['message'] ?? null,
-        ];
-
-    } catch (\Exception $e) {
-        Log::error('WhatsApp Template Send Failed', [
-            'error' => $e->getMessage(),
-            'phone' => $phone,
-        ]);
-
-        return [
-            "success" => false,
-            "error" => $e->getMessage(),
-        ];
-    }
+    return $this->whatsapp->sendTemplate(
+        $phone,
+        $cfg['invite_template'],
+        [$contact->name, $inviteLink],
+        $cfg['invite_image']
+    );
 }
 
 
@@ -239,19 +189,35 @@ public function handlewebhook(Request $request)
                 }
 
                 if ($status) {
-                    DB::table('contacts')
-                        ->where('phone', $phone)
-                        ->update(['status' => $status]);
+                    // Match the most recently invited contact for this phone,
+                    // so the response lands on the correct (latest) event.
+                    $digits = preg_replace('/[^0-9]/', '', $phone);
+                    $contact = Contact::whereRaw("REPLACE(REPLACE(phone,'+',''),' ','') = ?", [$digits])
+                        ->orderByDesc('invited_at')
+                        ->orderByDesc('id')
+                        ->first();
 
-                    Log::info('Status Updated Successfully', [
-                        'phone' => $phone,
-                        'status' => $status,
-                    ]);
-                }
+                    if ($contact) {
+                        $status === 'accepted' ? $contact->markAsAccepted() : $contact->markAsDeclined();
 
-                // 🟢 إرسال الرسالة الثانية بعد اختيار "حضور"
-                if ($status === 'accepted') {
-                    $this->sendAttendanceOptions($phone);
+                        Notification::create([
+                            'contact_id' => $contact->id,
+                            'event_id'   => $contact->event_id,
+                            'type'       => Notification::TYPE_RESPONSE,
+                            'message'    => $this->responseMessage($contact, $status),
+                            'status'     => $status,
+                        ]);
+
+                        if ($status === 'accepted') {
+                            $qrUrl = $this->generateQrForContact($contact);
+                            $this->sendQrViaWhatsapp($contact, $qrUrl);
+                        }
+                    } else {
+                        // Fallback: legacy bulk update by phone
+                        DB::table('contacts')->where('phone', $phone)->update(['status' => $status]);
+                    }
+
+                    Log::info('Webhook status updated', ['phone' => $phone, 'status' => $status, 'contact_id' => $contact->id ?? null]);
                 }
             }
         }
@@ -266,50 +232,25 @@ public function handlewebhook(Request $request)
 
 private function sendAttendanceOptions($phone)
 {
-    try {
-        $client = new \GuzzleHttp\Client(['timeout' => 30, 'verify' => false]);
-        $formattedPhone = preg_replace('/[^0-9]/', '', $phone);
-
-        $requestData = [
-            "token" => env("WHATSAPP_API_TOKEN"),
-            "phone" => $formattedPhone,
-            "message" => "يرجى اختيار عدد الأشخاص الذين سيحضرون 👇",
-            "header" => "تأكيد الحضور",
-            "footer" => "شكراً لتعاونك ❤️",
-            "action" => [
-                "button" => "اختيار العدد",
-                "sections" => [
-                    [
-                        "title" => "عدد الحضور",
-                        "rows" => [
-                            ["id" => "1", "title" => "شخص واحد"],
-                            ["id" => "2", "title" => "شخصان"],
-                            ["id" => "3", "title" => "3 أشخاص"],
-                        ]
-                    ]
-                ]
-            ]
-        ];
-
-        $response = $client->post("https://app.chatberry.net/api/wpbox/sendmessage", [
-            "headers" => [
-                "Content-Type" => "application/json",
-                "Accept" => "application/json"
+    $result = $this->whatsapp->sendList(
+        $phone,
+        'يرجى اختيار عدد الأشخاص الذين سيحضرون 👇',
+        'تأكيد الحضور',
+        'شكراً لتعاونك ❤️',
+        'اختيار العدد',
+        [[
+            'title' => 'عدد الحضور',
+            'rows'  => [
+                ['id' => '1', 'title' => 'شخص واحد'],
+                ['id' => '2', 'title' => 'شخصان'],
+                ['id' => '3', 'title' => '3 أشخاص'],
             ],
-            "json" => $requestData
-        ]);
+        ]]
+    );
 
-        $body = json_decode($response->getBody()->getContents(), true);
-        Log::info('Attendance List Message Sent', [
-            'phone' => $phone,
-            'response' => $body,
-        ]);
+    Log::info('Attendance List Message Sent', ['phone' => $phone, 'response' => $result['body'] ?? null]);
 
-        return $body;
-
-    } catch (\Exception $e) {
-        Log::error('Failed to send attendance options: ' . $e->getMessage());
-    }
+    return $result['body'] ?? null;
 }
 
 
@@ -459,22 +400,11 @@ private function sendAttendanceOptions($phone)
 
     private function sendQrViaWhatsapp(Contact $contact, string $qrUrl): void
     {
-        try {
-            $client = new \GuzzleHttp\Client(['timeout' => 30, 'verify' => false]);
-            $phone  = preg_replace('/[^0-9]/', '', $contact->phone);
-
-            $client->post('https://app.chatberry.net/api/wpbox/sendmessage', [
-                'headers' => ['Content-Type' => 'application/json', 'Accept' => 'application/json'],
-                'json'    => [
-                    'token'   => env('WHATSAPP_API_TOKEN'),
-                    'phone'   => $phone,
-                    'message' => "شكراً {$contact->name}! هذا رمز الدخول (QR) الخاص بك للحفل. أبرزه عند الوصول.",
-                    'media_url' => $qrUrl,
-                ],
-            ]);
-        } catch (\Exception $e) {
-            Log::error('Failed to send QR via WhatsApp: ' . $e->getMessage(), ['contact' => $contact->id]);
-        }
+        $this->whatsapp->sendMessage(
+            $contact->phone,
+            "شكراً {$contact->name}! هذا رمز الدخول (QR) الخاص بك للحفل. أبرزه عند الوصول.",
+            $qrUrl
+        );
     }
 
     public function showThankYouPage(Request $request)

@@ -3703,3 +3703,9 @@
 #53 C:\\Users\\mahmo\\Barcody\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\Users\\\\mahmo\\\\...')
 #54 {main}
 "} 
+[2026-06-16 15:35:50] local.INFO: Raw Webhook Data: {"entry":[{"changes":[{"value":{"messages":["System.Collections.Hashtable"]}}]}]} 
+[2026-06-16 15:36:43] local.INFO: Raw Webhook Data: {"entry":[{"changes":[{"value":{"messages":[{"type":"button","from":"9665862650","button":{"text":"Over 9 levels deep, aborting normalization"}}]}}]}]} 
+[2026-06-16 15:36:43] local.INFO: Button Press Detected {"phone":"9665862650","button":"????"} 
+[2026-06-16 15:38:24] local.INFO: Raw Webhook Data: {"entry":[{"changes":[{"value":{"messages":[{"type":"button","from":"9665862650","button":{"text":"Over 9 levels deep, aborting normalization"}}]}}]}]} 
+[2026-06-16 15:38:24] local.INFO: Button Press Detected {"phone":"9665862650","button":"حضور"} 
+[2026-06-16 15:38:26] local.INFO: Webhook status updated {"phone":"9665862650","status":"accepted","contact_id":4} 

@@ -38,4 +38,15 @@ return [
         'currency' => env('STRIPE_CURRENCY', 'usd'),
     ],
 
+    'chatberry' => [
+        'token'      => env('WHATSAPP_API_TOKEN'),
+        'base_url'   => env('CHATBERRY_BASE_URL', 'https://app.chatberry.net/api/wpbox'),
+        'otp_template'       => env('CHATBERRY_OTP_TEMPLATE'),          // optional approved OTP template
+        'invite_template'    => env('CHATBERRY_INVITE_TEMPLATE', 'waled_text'),
+        'invite_image'       => env('CHATBERRY_INVITE_IMAGE', 'https://onsyntax.com/front-end/img/hero_mob.png'),
+        'template_language'  => env('CHATBERRY_TEMPLATE_LANG', 'ar'),
+        'timeout'    => (int) env('CHATBERRY_TIMEOUT', 30),
+        'verify_ssl' => filter_var(env('CHATBERRY_VERIFY_SSL', false), FILTER_VALIDATE_BOOLEAN),
+    ],
+
 ];
