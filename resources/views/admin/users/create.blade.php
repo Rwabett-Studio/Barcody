@@ -1,119 +1,120 @@
 @include('admin.layouts.header')
 
 <div id="main" class="offset-lg-2">
-    <!-- content -->
-    <div class="content pt-3">
+    <div class="content pt-3 contacts-page users-form-page">
         <div class="d-flex justify-content-between align-items-center border-bottom mainBordClr mb-lg-4 mb-0">
             <h4 class="fw-bold mb-0">Add New User</h4>
         </div>
-        <div class="col-12 position-relative pt-1">
-    
-            <div class="logFormDV center mb-lg-5 mb-2">
-                <div class="clear"></div>
-                <div class="col-lg-9 center pt-lg-5 pt-2">
-                    <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="position-relative">
-                                    <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" required>
-                                </div>
-                            </div>
-                            
-                            <div class="col-12">
-                                <div class="position-relative">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" required>
-                                </div>
-                            </div>
 
-                            <div class="col-12">
-                                <div class="position-relative">
-                                    <label for="phone" class="form-label">Phone</label>
-                                    <input type="text" class="form-control" id="phone" name="phone" required>
-                                </div>
-                            </div>
+        <div class="contact-form-shell contact-form-shell-full mt-4">
+            <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data" class="contact-form-grid settings-form-grid">
+                @csrf
 
-                            <div class="col-12">
-                                <div class="position-relative">
-                                    <label for="birthDay" class="form-label">Birth Date</label>
-                                    <input type="date" class="form-control" id="birthDay" name="birthDay">
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="position-relative">
-                                    <label for="gender" class="form-label">Gender</label>
-                                    <select class="form-control" id="gender" name="gender">
-                                        <option value="">Select Gender</option>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="position-relative">
-                                    <label for="image" class="form-label">Profile Image</label>
-                                    <input type="file" class="form-control" id="image" name="image">
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="position-relative">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" name="password" required>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="position-relative">
-                                    <label for="password_confirmation" class="form-label">Confirm Password</label>
-                                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="position-relative">
-                                    <label for="role" class="form-label">Role</label>
-                                    <select class="form-control" id="role" name="role" required>
-                                        <option value="admin">Admin</option>
-                                        <option value="coordinator">Coordinator</option>
-                                        <option value="user">User</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="position-relative">
-                                    <label class="form-label">Permissions</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="create_role" name="create_role" value="1">
-                                        <label class="form-check-label" for="create_role">Create Permission</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="edit_role" name="edit_role" value="1">
-                                        <label class="form-check-label" for="edit_role">Edit Permission</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="delete_role" name="delete_role" value="1">
-                                        <label class="form-check-label" for="delete_role">Delete Permission</label>
-                                    </div>
-                                </div>
-                            </div>
-              
-                            <div class="col-12 mt-4">
-                                <button type="submit" class="btn blueBtn d-flex w-100 align-items-center text-center justify-content-center">
-                                    <span><i class="fas fa-arrow-right border-0"></i></span>
-                                    <span>Add User</span>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                <div class="settings-section-title">
+                    <h6>Profile</h6>
+                    <p>Add the user identity and contact details.</p>
                 </div>
-            </div>
+
+                <div class="contact-field">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control contact-input" id="name" name="name" value="{{ old('name') }}" placeholder="Enter full name" required>
+                </div>
+
+                <div class="contact-field">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control contact-input" id="email" name="email" value="{{ old('email') }}" placeholder="Enter email address" required>
+                </div>
+
+                <div class="contact-field">
+                    <label for="phone">Phone</label>
+                    <input type="text" class="form-control contact-input" id="phone" name="phone" value="{{ old('phone') }}" placeholder="Enter phone number" required>
+                </div>
+
+                <div class="contact-field">
+                    <label for="birthDay">Birth Date</label>
+                    <input type="date" class="form-control contact-input" id="birthDay" name="birthDay" value="{{ old('birthDay') }}">
+                </div>
+
+                <div class="contact-field">
+                    <label for="gender">Gender</label>
+                    <select class="form-control contact-input" id="gender" name="gender">
+                        <option value="">Select Gender</option>
+                        <option value="male" {{ old('gender') === 'male' ? 'selected' : '' }}>Male</option>
+                        <option value="female" {{ old('gender') === 'female' ? 'selected' : '' }}>Female</option>
+                        <option value="other" {{ old('gender') === 'other' ? 'selected' : '' }}>Other</option>
+                    </select>
+                </div>
+
+                <div class="contact-field contact-field-full">
+                    <label for="image">Profile Image</label>
+                    <div class="settings-upload-row user-upload-row">
+                        <div class="settings-preview-box settings-preview-box-light user-preview-box">
+                            <img id="user_image_preview" src="" alt="Profile Image" style="display:none;">
+                            <i class="fa-regular fa-user" id="user_image_placeholder"></i>
+                        </div>
+                        <div class="settings-upload-control">
+                            <input type="file" class="form-control contact-input contact-file-input" id="image" name="image" accept="image/*" data-preview-target="#user_image_preview" data-placeholder-target="#user_image_placeholder">
+                            <small class="contact-file-hint">Recommended formats: JPG, PNG, GIF</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section-title contact-field-full">
+                    <h6>Access</h6>
+                    <p>Set the login password, role, and dashboard permissions.</p>
+                </div>
+
+                <div class="contact-field">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control contact-input" id="password" name="password" placeholder="Enter password" required>
+                </div>
+
+                <div class="contact-field">
+                    <label for="password_confirmation">Confirm Password</label>
+                    <input type="password" class="form-control contact-input" id="password_confirmation" name="password_confirmation" placeholder="Confirm password" required>
+                </div>
+
+                <div class="contact-field">
+                    <label for="role">Role</label>
+                    <select class="form-control contact-input" id="role" name="role" required>
+                        <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Admin</option>
+                        <option value="coordinator" {{ old('role') === 'coordinator' ? 'selected' : '' }}>Coordinator</option>
+                        <option value="user" {{ old('role') === 'user' ? 'selected' : '' }}>User</option>
+                    </select>
+                </div>
+
+                <div class="contact-field contact-field-full">
+                    <label>Permissions</label>
+                    <div class="permission-card-grid">
+                        <label class="permission-card">
+                            <input type="checkbox" id="create_role" name="create_role" value="1" {{ old('create_role') ? 'checked' : '' }}>
+                            <span><i class="fa-solid fa-plus"></i></span>
+                            <strong>Create</strong>
+                        </label>
+                        <label class="permission-card">
+                            <input type="checkbox" id="edit_role" name="edit_role" value="1" {{ old('edit_role') ? 'checked' : '' }}>
+                            <span><i class="fa-solid fa-pen"></i></span>
+                            <strong>Edit</strong>
+                        </label>
+                        <label class="permission-card">
+                            <input type="checkbox" id="delete_role" name="delete_role" value="1" {{ old('delete_role') ? 'checked' : '' }}>
+                            <span><i class="fa-solid fa-trash"></i></span>
+                            <strong>Delete</strong>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="contact-form-actions">
+                    <a href="{{ route('users.index') }}" class="btn mainBtn2 light-primary">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Back</span>
+                    </a>
+                    <button type="submit" class="btn blueBtn d-inline-flex align-items-center justify-content-center">
+                        <i class="fas fa-plus"></i>
+                        <span>Create User</span>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

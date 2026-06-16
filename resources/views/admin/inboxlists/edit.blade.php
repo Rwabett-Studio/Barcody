@@ -1,73 +1,54 @@
 @include('admin.layouts.header')
 
-    <div id="main" class="offset-lg-2">
-    
-    <!-- content -->
-    <div class="content pt-3">
+<div id="main" class="offset-lg-2">
+    <div class="content pt-3 contacts-page inbox-form-page">
         <div class="d-flex justify-content-between align-items-center border-bottom mainBordClr mb-lg-4 mb-0">
-            <h4 class="fw-bold mb-0">List of Companies</h4>
-            <button class="d-flex align-items-center blueBtn">
-                <i class="fas fa-plus"></i> <span>Add company</span>
-            </button>
+            <h4 class="fw-bold mb-0">Edit Inbox Message</h4>
         </div>
-        <div class="col-12 position-relative pt-1">
-    
-   
-            <div class="logFormDV center mb-lg-5 mb-2">
-                <div class="clear"></div>
-                <div class="col-lg-9 center pt-lg-5 pt-2">
-               
-                  <form action="{{ route('inboxlists.update', $inboxlist->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
 
-                    <div class="row">
+        <div class="contact-form-shell contact-form-shell-full mt-4">
+            <form action="{{ route('inboxlists.update', $inboxlist->id) }}" method="POST" class="contact-form-grid settings-form-grid">
+                @csrf
+                @method('PUT')
 
-                      <div class="col-12">
-                        <div class="position-relative">
-                          <label for="name" class="form-label">Name</label>
-                          <input type="text" class="form-control" id="name" name="name" value="{{ $inboxlist->name }}" required>
-                        </div>
-                      </div>
-
-                      <div class="col-12">
-                        <div class="position-relative">
-                          <label for="email" class="form-label">Email</label>
-                          <input type="email" class="form-control" id="email" name="email" value="{{ $inboxlist->email }}" required>
-                        </div>                 
-                      </div>
-
-                      <div class="col-12">
-                        <div class="position-relative">
-                          <label for="phone" class="form-label">Phone</label>
-                          <input type="text" class="form-control" id="phone" name="phone" value="{{ $inboxlist->phone }}" required>
-                        </div>                 
-                      </div>
-
-                      <div class="col-12">
-                        <div class="position-relative">
-                          <label for="message" class="form-label">Message</label>
-                          <textarea class="form-control" id="message" name="message" rows="3" required>{{ $inboxlist->message }}</textarea>
-                        </div>                 
-                      </div>
-              
-                      <div class="col-12">
-                        <button class="btn blueBtn d-flex w-100 d-flex align-items-center text-center justify-content-center">
-                          <span><i class="fas fa-arrow-right border-0"></i></span>
-                          <span>Update</span>
-                        </button>
-                      </div>
-                    </div>
-        
-                  </form>
+                <div class="settings-section-title">
+                    <h6>Contact Details</h6>
+                    <p>Update sender details and message content.</p>
                 </div>
-            </div>
 
+                <div class="contact-field">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control contact-input" id="name" name="name" value="{{ old('name', $inboxlist->name) }}" placeholder="Enter sender name" required>
+                </div>
 
+                <div class="contact-field">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control contact-input" id="email" name="email" value="{{ old('email', $inboxlist->email) }}" placeholder="Enter email address" required>
+                </div>
+
+                <div class="contact-field">
+                    <label for="phone">Phone</label>
+                    <input type="text" class="form-control contact-input" id="phone" name="phone" value="{{ old('phone', $inboxlist->phone) }}" placeholder="Enter phone number" required>
+                </div>
+
+                <div class="contact-field contact-field-full">
+                    <label for="message">Message</label>
+                    <textarea class="form-control contact-input settings-textarea" id="message" name="message" rows="5" placeholder="Enter message" required>{{ old('message', $inboxlist->message) }}</textarea>
+                </div>
+
+                <div class="contact-form-actions">
+                    <a href="{{ route('inboxlists.index') }}" class="btn mainBtn2 light-primary">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Back</span>
+                    </a>
+                    <button type="submit" class="btn blueBtn d-inline-flex align-items-center justify-content-center">
+                        <i class="fas fa-save"></i>
+                        <span>Update Message</span>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
-    
-    </div>
-    
+</div>
 
 @include('admin.layouts.footer')

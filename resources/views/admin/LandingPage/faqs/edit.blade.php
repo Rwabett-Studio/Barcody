@@ -1,46 +1,49 @@
 @include('admin.layouts.header')
 
 <div id="main" class="offset-lg-2">
-    <!-- content -->
-    <div class="content pt-3">
-        <div class="d-flex justify-content-between align-items-center border-bottom mainBordClr mb-lg-4 mb-0">
-            <h4 class="fw-bold mb-0">Edit FAQ</h4>
+    <div class="content pt-3 contacts-page">
+        <div class="contacts-page-head d-flex justify-content-between align-items-start border-bottom mainBordClr mb-lg-4 mb-0">
+            <div>
+                <h4 class="fw-bold mb-1">Edit FAQ</h4>
+                <p class="mb-0">Update the landing page question and answer.</p>
+            </div>
+            <a href="{{ route('faqs.index') }}" class="table-action-btn">
+                <i class="fas fa-arrow-left"></i>
+            </a>
         </div>
-        <div class="col-12 position-relative pt-1">
-            <div class="logFormDV center mb-lg-5 mb-2">
-                <div class="clear"></div>
-                <div class="col-lg-9 center pt-lg-5 pt-2">
-                    <form action="{{ route('faqs.update', $faq->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <div class="row">
-                            <input type="hidden" name="id" value="{{ $faq->id }}">
 
-                            <div class="col-12">
-                                <div class="position-relative">
-                                    <label for="question">Question</label>
-                                    <input type="text" name="question" id="question" class="form-control" value="{{ $faq->question }}" required>
-                                </div>
-                            </div>
+        <form action="{{ route('faqs.update', $faq->id) }}" method="POST" class="contact-form-shell contact-form-shell-full mt-4">
+            @csrf
+            @method('PUT')
 
-                            <div class="col-12">
-                                <div class="position-relative">
-                                    <label for="answer">Answer</label>
-                                    <textarea name="answer" id="answer" class="form-control" required>{{ $faq->answer }}</textarea>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <button type="submit" class="btn blueBtn d-flex w-100 d-flex align-items-center text-center justify-content-center">
-                                    <span><i class="fas fa-arrow-right border-0"></i></span>
-                                    <span>Update</span>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+            <div class="settings-section-title">
+                <span class="contact-avatar bg-warning-subtle text-warning"><i class="fas fa-question"></i></span>
+                <div>
+                    <h5>FAQ Details</h5>
+                    <p>Write a direct question with a clear answer.</p>
                 </div>
             </div>
-        </div>
+
+            <div class="contact-form-grid settings-form-grid">
+                <div class="contact-field contact-field-full">
+                    <label for="question">Question</label>
+                    <input type="text" name="question" id="question" class="contact-input" value="{{ old('question', $faq->question) }}" required>
+                </div>
+
+                <div class="contact-field contact-field-full">
+                    <label for="answer">Answer</label>
+                    <textarea name="answer" id="answer" class="contact-input" rows="6" required>{{ old('answer', $faq->answer) }}</textarea>
+                </div>
+            </div>
+
+            <div class="contact-form-actions">
+                <a href="{{ route('faqs.index') }}" class="table-action-btn">Cancel</a>
+                <button type="submit" class="btn blueBtn d-flex align-items-center">
+                    <i class="fas fa-save"></i>
+                    <span>Update</span>
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 

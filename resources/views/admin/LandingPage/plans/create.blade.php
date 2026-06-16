@@ -1,78 +1,54 @@
 @include('admin.layouts.header')
 
 <div id="main" class="offset-lg-2">
-    <!-- content -->
-    <div class="content pt-3">
-        <div class="d-flex justify-content-between align-items-center border-bottom mainBordClr mb-lg-4 mb-0">
-            <h4 class="fw-bold mb-0">Create Plan</h4>
+    <div class="content pt-3 contacts-page">
+        <div class="contacts-page-head d-flex justify-content-between align-items-start border-bottom mainBordClr mb-lg-4 mb-0">
+            <div>
+                <h4 class="fw-bold mb-1">Create Plan</h4>
+                <p class="mb-0">Add pricing and plan feature lines.</p>
+            </div>
+            <a href="{{ route('plans.index') }}" class="table-action-btn">
+                <i class="fas fa-arrow-left"></i>
+            </a>
         </div>
-        <div class="col-12 position-relative pt-1">
-            <div class="logFormDV center mb-lg-5 mb-2">
-                <div class="clear"></div>
-                <div class="col-lg-9 center pt-lg-5 pt-2">
-                    <form action="{{ route('plans.store') }}" method="POST">
-                        @csrf
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="position-relative">
-                                    <label for="title">Title</label>
-                                    <input type="text" name="title" id="title" class="form-control" required>
-                                </div>
-                            </div>
 
-                            <div class="col-12">
-                                <div class="position-relative">
-                                    <label for="price">Price</label>
-                                    <input type="text" name="price" id="price" class="form-control" required>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="position-relative">
-                                    <label for="item1">Item 1</label>
-                                    <input type="text" name="item1" id="item1" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="position-relative">
-                                    <label for="item2">Item 2</label>
-                                    <input type="text" name="item2" id="item2" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="position-relative">
-                                    <label for="item3">Item 3</label>
-                                    <input type="text" name="item3" id="item3" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="position-relative">
-                                    <label for="item4">Item 4</label>
-                                    <input type="text" name="item4" id="item4" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="position-relative">
-                                    <label for="item5">Item 5</label>
-                                    <input type="text" name="item5" id="item5" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <button type="submit" class="btn blueBtn d-flex w-100 d-flex align-items-center text-center justify-content-center">
-                                    <span><i class="fas fa-arrow-right border-0"></i></span>
-                                    <span>Create</span>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+        <form action="{{ route('plans.store') }}" method="POST" class="contact-form-shell contact-form-shell-full mt-4">
+            @csrf
+            <div class="settings-section-title">
+                <span class="contact-avatar bg-success-subtle text-success"><i class="fas fa-gem"></i></span>
+                <div>
+                    <h5>Plan Details</h5>
+                    <p>Keep names short and list the strongest plan benefits.</p>
                 </div>
             </div>
-        </div>
+
+            <div class="contact-form-grid settings-form-grid">
+                <div class="contact-field">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" id="title" class="contact-input" value="{{ old('title') }}" required>
+                </div>
+
+                <div class="contact-field">
+                    <label for="price">Price</label>
+                    <input type="text" name="price" id="price" class="contact-input" value="{{ old('price') }}" required>
+                </div>
+
+                @for ($i = 1; $i <= 5; $i++)
+                    <div class="contact-field">
+                        <label for="item{{ $i }}">Item {{ $i }}</label>
+                        <input type="text" name="item{{ $i }}" id="item{{ $i }}" class="contact-input" value="{{ old('item' . $i) }}">
+                    </div>
+                @endfor
+            </div>
+
+            <div class="contact-form-actions">
+                <a href="{{ route('plans.index') }}" class="table-action-btn">Cancel</a>
+                <button type="submit" class="btn blueBtn d-flex align-items-center">
+                    <i class="fas fa-plus"></i>
+                    <span>Create</span>
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 

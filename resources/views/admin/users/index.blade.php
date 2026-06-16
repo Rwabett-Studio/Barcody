@@ -1,123 +1,148 @@
 @include('admin.layouts.header')
 
-    <div id="main" class="offset-lg-2">
-    
-    <!-- content -->
-    <div class="content pt-3">
+<div id="main" class="offset-lg-2">
+    <div class="content pt-3 contacts-page users-page">
         <div class="d-flex justify-content-between align-items-center border-bottom mainBordClr mb-lg-4 mb-0">
-            <h4 class="fw-bold mb-0">users</h4>
+            <h4 class="fw-bold mb-0">Users</h4>
 
             @if(Auth::user()->create_role === 1)
-
             <a href="{{ route('users.create') }}" class="d-flex align-items-center blueBtn">
-                <i class="fas fa-plus"></i> <span>Add User</span>
+                <i class="fas fa-plus"></i>
+                <span>Add User</span>
             </a>
-
             @endif
-
         </div>
-        <div class="col-12 position-relative pt-1">
-            <div class="table-tools">
-                <div class="d-flex align-items-center">
-                    <button class="btn mainBtn2 light-primary">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M10 6.66667V13.3333M6.66667 10H13.3333M6.5 17.5H13.5C14.9001 17.5 15.6002 17.5 16.135 17.2275C16.6054 16.9878 16.9878 16.6054 17.2275 16.135C17.5 15.6002 17.5 14.9001 17.5 13.5V6.5C17.5 5.09987 17.5 4.3998 17.2275 3.86502C16.9878 3.39462 16.6054 3.01217 16.135 2.77248C15.6002 2.5 14.9001 2.5 13.5 2.5H6.5C5.09987 2.5 4.3998 2.5 3.86502 2.77248C3.39462 3.01217 3.01217 3.39462 2.77248 3.86502C2.5 4.3998 2.5 5.09987 2.5 6.5V13.5C2.5 14.9001 2.5 15.6002 2.77248 16.135C3.01217 16.6054 3.39462 16.9878 3.86502 17.2275C4.3998 17.5 5.09987 17.5 6.5 17.5Z" stroke="#809FB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        <span>Assign</span>                                
-                    </button>
-                    <button class="btn mainBtn2 light-primary mx-3">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M18.0249 12.2921C18.0249 13.0337 17.8166 13.7338 17.4499 14.3338C16.7666 15.4838 15.5083 16.2504 14.0666 16.2504C12.6249 16.2504 11.3666 15.4754 10.6833 14.3338C10.3166 13.7421 10.1083 13.0337 10.1083 12.2921C10.1083 10.1087 11.8833 8.33374 14.0666 8.33374C16.2499 8.33374 18.0249 10.1087 18.0249 12.2921Z" stroke="#809FB8" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M15.55 12.2754H12.5917" stroke="#809FB8" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M14.0667 10.8335V13.7918" stroke="#809FB8" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M17.2416 3.35034V5.20032C17.2416 5.87532 16.8166 6.717 16.4 7.142L14.9333 8.43365C14.6583 8.36699 14.3666 8.33366 14.0666 8.33366C11.8833 8.33366 10.1083 10.1087 10.1083 12.292C10.1083 13.0337 10.3166 13.7337 10.6833 14.3337C10.9916 14.8503 11.4166 15.292 11.9333 15.6086V15.892C11.9333 16.4003 11.6 17.0753 11.175 17.3253L9.99997 18.0837C8.9083 18.7587 7.39163 18.0003 7.39163 16.6503V12.192C7.39163 11.6003 7.04997 10.842 6.71663 10.4253L3.51663 7.05863C3.09997 6.63363 2.7583 5.87534 2.7583 5.37534V3.43365C2.7583 2.42532 3.51663 1.66699 4.44163 1.66699H15.5583C16.4833 1.66699 17.2416 2.42534 17.2416 3.35034Z" stroke="#809FB8" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>                                
-                        <span>Filter</span>                                
-                    </button>
-                    <button class="btn mainBtn2 light-primary">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M13.7 7.4165C16.7 7.67484 17.925 9.2165 17.925 12.5915V12.6998C17.925 16.4248 16.4333 17.9165 12.7083 17.9165H7.28332C3.55832 17.9165 2.06665 16.4248 2.06665 12.6998V12.5915C2.06665 9.2415 3.27498 7.69984 6.22498 7.42484" stroke="#809FB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M10 1.6665V12.3998" stroke="#809FB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M12.7917 10.5417L10 13.3334L7.20837 10.5417" stroke="#809FB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            
-                            
-                        <span>Export</span>                                
-                    </button>
-                </div>
-            </div>
-            <table id="contactTable" class=" w-100 mt-3">
-                <thead>
-                    <tr>
-                        <th>
-                            <div class="checkboxes__row">
-                                <div class="checkboxes__item">
-                                    <label class="checkbox style-b">
-                                        <input type="checkbox"/>
-                                        <div class="checkbox__checkmark"></div>
-                                    </label>
-                                </div>
-                            </div>
-                        </th>
-                        <th style="width:15%">Name</th>
-                        <th>email</th>
-                        <th>phone</th>
-                        <th>status</th>
-                        <th style="width:17%">actions</th>
-                    </tr>
-                </thead>
 
-                        @foreach($users as $user)
+        <div class="contacts-table-shell users-table-shell mt-4">
+            <div class="table-responsive">
+                <table id="contactTable" class="w-100 companyTable contacts-table users-table">
+                    <thead>
                         <tr>
-                                
-                                <td>
-                                <div class="checkboxes__row">
-                                    <div class="checkboxes__item">
-                                        <label class="checkbox style-b">
-                                            <input type="checkbox"/>
-                                            <div class="checkbox__checkmark"></div>
-                                        </label>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Role</th>
+                            <th>Permissions</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($users as $user)
+                        @php
+                            $initial = strtoupper(substr($user->name ?? 'U', 0, 1));
+                            $imageUrl = $user->image ? url('storage/' . $user->image) : null;
+                        @endphp
+                        <tr>
+                            <td>
+                                <div class="user-name-cell">
+                                    @if($imageUrl)
+                                        <img src="{{ $imageUrl }}" alt="{{ $user->name }}" class="user-table-avatar">
+                                    @else
+                                        <span class="contact-avatar user-table-avatar-fallback">{{ $initial }}</span>
+                                    @endif
+                                    <div>
+                                        <strong>{{ $user->name }}</strong>
+                                        <small>ID #{{ $user->id }}</small>
                                     </div>
                                 </div>
                             </td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->phone }}</td>
-                            <td>{{ ucfirst($user->role) }}</td>
                             <td>
-
-                                <div class="d-flex align-items-center actions">
-
+                                <span class="event-muted-text">{{ $user->email }}</span>
+                            </td>
+                            <td>
+                                <span class="event-muted-text">{{ $user->phone ?: '-' }}</span>
+                            </td>
+                            <td>
+                                <span class="contact-badge user-role-badge">{{ ucfirst($user->role) }}</span>
+                            </td>
+                            <td>
+                                <div class="user-permission-list">
+                                    <span class="{{ $user->create_role ? 'is-on' : '' }}">Create</span>
+                                    <span class="{{ $user->edit_role ? 'is-on' : '' }}">Edit</span>
+                                    <span class="{{ $user->delete_role ? 'is-on' : '' }}">Delete</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="table-action-group">
                                     @if(Auth::user()->edit_role === 1)
-
-                                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-link">
-                                        <span>Edit</span>
+                                    <a href="{{ route('users.edit', $user->id) }}" class="table-action-btn" title="Edit">
+                                        <i class="fa-solid fa-pen"></i>
                                     </a>
-
                                     @endif
 
                                     @if(Auth::user()->delete_role === 1)
-
-                                    <form action="{{ route('users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-link text-danger">Delete</button>
-                                    </form>
-
+                                    <button
+                                        type="button"
+                                        class="table-action-btn is-danger js-user-delete"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#userDeleteModal"
+                                        data-user-name="{{ $user->name }}"
+                                        data-user-email="{{ $user->email }}"
+                                        data-user-role="{{ ucfirst($user->role) }}"
+                                        data-user-action="{{ route('users.destroy', $user->id) }}"
+                                        title="Delete"
+                                    >
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
                                     @endif
-
                                 </div>
                             </td>
                         </tr>
-                        @endforeach
-
-                    
-                </tbody>
-                
-            </table>
+                        @empty
+                        <tr>
+                            <td colspan="6">
+                                <div class="table-empty">
+                                    <i class="fa-regular fa-user"></i>
+                                    <h6>No users yet</h6>
+                                    <p>Add the first user to start assigning access.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-    
+</div>
+
+<div class="modal fade contact-delete-modal" id="userDeleteModal" tabindex="-1" aria-labelledby="userDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <span class="dashboard-eyebrow">Delete user</span>
+                    <h5 class="modal-title fw-bold mb-0" id="userDeleteModalLabel">Confirm Delete</h5>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="contact-delete-copy">This user will be removed from the dashboard.</p>
+                <div class="contact-delete-card">
+                    <div class="contact-delete-row">
+                        <span>Name</span>
+                        <strong id="deleteUserName">-</strong>
+                    </div>
+                    <div class="contact-delete-row">
+                        <span>Email</span>
+                        <strong id="deleteUserEmail">-</strong>
+                    </div>
+                    <div class="contact-delete-row">
+                        <span>Role</span>
+                        <strong id="deleteUserRole">-</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn mainBtn2 light-primary" data-bs-dismiss="modal">Cancel</button>
+                <form id="userDeleteForm" method="POST" class="m-0">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger contact-delete-confirm">Confirm Delete</button>
+                </form>
+            </div>
+        </div>
     </div>
-    
+</div>
+
 @include('admin.layouts.footer')

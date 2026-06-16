@@ -1,50 +1,61 @@
 @include('admin.layouts.header')
 
 <div id="main" class="offset-lg-2">
-    <!-- content -->
-    <div class="content pt-3">
-        <div class="d-flex justify-content-between align-items-center border-bottom mainBordClr mb-lg-4 mb-0">
-            <h4 class="fw-bold mb-0">Create How To Use</h4>
+    <div class="content pt-3 contacts-page">
+        <div class="contacts-page-head d-flex justify-content-between align-items-start border-bottom mainBordClr mb-lg-4 mb-0">
+            <div>
+                <h4 class="fw-bold mb-1">Create How To Use</h4>
+                <p class="mb-0">Add a landing page guide step.</p>
+            </div>
+            <a href="{{ route('how-use-barcodies.index') }}" class="table-action-btn">
+                <i class="fas fa-arrow-left"></i>
+            </a>
         </div>
-        <div class="col-12 position-relative pt-1">
-            <div class="logFormDV center mb-lg-5 mb-2">
-                <div class="clear"></div>
-                <div class="col-lg-9 center pt-lg-5 pt-2">
-                    <form action="{{ route('how-use-barcodies.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="position-relative">
-                                    <label for="title">Title</label>
-                                    <input type="text" name="title" id="title" class="form-control" required>
-                                </div>
-                            </div>
 
-                            <div class="col-12">
-                                <div class="position-relative">
-                                    <label for="description">Description</label>
-                                    <textarea name="description" id="description" class="form-control" required></textarea>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="position-relative">
-                                    <label for="image">Image</label>
-                                    <input type="file" name="image" id="image" class="form-control" required>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <button type="submit" class="btn blueBtn d-flex w-100 d-flex align-items-center text-center justify-content-center">
-                                    <span><i class="fas fa-arrow-right border-0"></i></span>
-                                    <span>Create</span>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+        <form action="{{ route('how-use-barcodies.store') }}" method="POST" enctype="multipart/form-data" class="contact-form-shell contact-form-shell-full mt-4">
+            @csrf
+            <div class="settings-section-title">
+                <span class="contact-avatar bg-info-subtle text-info"><i class="fas fa-circle-question"></i></span>
+                <div>
+                    <h5>Guide Details</h5>
+                    <p>Write the step copy and upload its supporting image.</p>
                 </div>
             </div>
-        </div>
+
+            <div class="contact-form-grid settings-form-grid">
+                <div class="contact-field">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" id="title" class="contact-input" value="{{ old('title') }}" required>
+                </div>
+
+                <div class="contact-field contact-field-full">
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description" class="contact-input" rows="5" required>{{ old('description') }}</textarea>
+                </div>
+
+                <div class="contact-field">
+                    <label for="image">Image</label>
+                    <div class="settings-upload-row">
+                        <div class="settings-preview-box settings-preview-box-light">
+                            <span id="howUseImagePlaceholder"><i class="fas fa-image"></i></span>
+                            <img id="howUseImagePreview" src="" alt="Guide preview" style="display:none;">
+                        </div>
+                        <div class="flex-grow-1">
+                            <input type="file" name="image" id="image" class="contact-file-input" accept="image/*" data-preview-target="#howUseImagePreview" data-placeholder-target="#howUseImagePlaceholder" required>
+                            <span class="contact-file-hint">PNG, JPG, GIF, or SVG up to 2MB.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form-actions">
+                <a href="{{ route('how-use-barcodies.index') }}" class="table-action-btn">Cancel</a>
+                <button type="submit" class="btn blueBtn d-flex align-items-center">
+                    <i class="fas fa-plus"></i>
+                    <span>Create</span>
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 
