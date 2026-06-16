@@ -47,12 +47,7 @@ class ContactController extends Controller
             $contact->markAsInvited();
 
             $inviteLink = url('/invitation/response/' . $contact->invitation_token);
-            $res = $whatsapp->sendTemplate(
-                $contact->phone,
-                $cfg['invite_template'],
-                [$contact->name, $inviteLink],
-                $cfg['invite_image']
-            );
+            $res = $whatsapp->sendMessage($contact->phone, $this->buildInviteText($contact, $inviteLink));
 
             if ($res['success'] ?? false) {
                 $results['sent'][] = ['name' => $contact->name, 'phone' => $contact->phone];
@@ -70,6 +65,27 @@ class ContactController extends Controller
             ],
             'results' => $results,
         ]);
+    }
+
+    /**
+     * Build a plain-text WhatsApp invitation (reliably delivered, unlike
+     * an unapproved template). Includes the personal RSVP link.
+     */
+    private function buildInviteText(Contact $contact, string $link): string
+    {
+        $event = $contact->event;
+        $lines = [];
+        $lines[] = "🎉 دعوة لحضور: " . ($event->name ?? '');
+        $lines[] = "أهلاً " . $contact->name . "، يسعدنا دعوتك 🌟";
+        if ($event) {
+            if ($event->date)     $lines[] = "📅 التاريخ: " . $event->date;
+            if ($event->time)     $lines[] = "🕐 الوقت: " . $event->time;
+            if ($event->location) $lines[] = "📍 المكان: " . $event->location;
+        }
+        $lines[] = "";
+        $lines[] = "أكّد حضورك من هنا 👇";
+        $lines[] = $link;
+        return implode("\n", $lines);
     }
 
     /**

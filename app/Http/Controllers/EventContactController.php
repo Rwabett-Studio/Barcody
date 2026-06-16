@@ -145,17 +145,20 @@ class EventContactController extends Controller
 
 private function sendWhatsappTemplateMessage($phone, $contact, $event)
 {
-    $cfg = config('services.chatberry');
-
     // Personalised invitation link the guest will open
     $inviteLink = url('/invitation/response/' . $contact->invitation_token);
 
-    return $this->whatsapp->sendTemplate(
-        $phone,
-        $cfg['invite_template'],
-        [$contact->name, $inviteLink],
-        $cfg['invite_image']
-    );
+    $lines = [];
+    $lines[] = "🎉 دعوة لحضور: " . ($event->name ?? '');
+    $lines[] = "أهلاً " . $contact->name . "، يسعدنا دعوتك 🌟";
+    if ($event->date)     $lines[] = "📅 التاريخ: " . $event->date;
+    if ($event->time)     $lines[] = "🕐 الوقت: " . $event->time;
+    if ($event->location) $lines[] = "📍 المكان: " . $event->location;
+    $lines[] = "";
+    $lines[] = "أكّد حضورك من هنا 👇";
+    $lines[] = $inviteLink;
+
+    return $this->whatsapp->sendMessage($phone, implode("\n", $lines));
 }
 
 
