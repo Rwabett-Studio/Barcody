@@ -40,6 +40,21 @@ class EventController extends Controller
         return view('admin.events.create', compact('categories'));
     }
 
+    /**
+     * Turn the template-params textarea (one param per line) into a clean array.
+     */
+    private function parseTemplateParams($raw): array
+    {
+        if (is_array($raw)) {
+            return array_values(array_filter(array_map('trim', $raw), fn ($v) => $v !== ''));
+        }
+        if (!is_string($raw) || trim($raw) === '') {
+            return [];
+        }
+        $lines = preg_split('/\r\n|\r|\n/', $raw);
+        return array_values(array_filter(array_map('trim', $lines), fn ($v) => $v !== ''));
+    }
+
     // Store a new event
     public function store(Request $request)
     {
@@ -55,12 +70,12 @@ class EventController extends Controller
             'status' => 'required|in:published,draft',
         ]);
 
-        $event = new Event($request->except('thumbnail_image'));
+        $event = new Event($request->except('thumbnail_image', 'wa_template_params'));
+        $event->wa_template_params = $this->parseTemplateParams($request->input('wa_template_params'));
 
-        
             if ($request->hasFile('thumbnail_image')) {
-                $path = $request->file('thumbnail_image')->store('events', 'public'); 
-                $event->thumbnail_image = $path; 
+                $path = $request->file('thumbnail_image')->store('events', 'public');
+                $event->thumbnail_image = $path;
             }
 
         $event->user_id = Auth::id();
@@ -95,13 +110,16 @@ class EventController extends Controller
         ]);
 
         $event = Event::findOrFail($id);
-        $event->fill($request->except('thumbnail_image'));
+        $event->fill($request->except('thumbnail_image', 'wa_template_params'));
+        if ($request->has('wa_template_params')) {
+            $event->wa_template_params = $this->parseTemplateParams($request->input('wa_template_params'));
+        }
 
     if ($request->hasFile('thumbnail_image')) {
         if ($event->thumbnail_image) {
             Storage::disk('public')->delete($event->thumbnail_image);
         }
-        
+
         $path = $request->file('thumbnail_image')->store('events', 'public');
         $event->thumbnail_image = $path;
     }

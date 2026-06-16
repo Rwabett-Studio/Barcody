@@ -47,7 +47,20 @@ class ContactController extends Controller
             $contact->markAsInvited();
 
             $inviteLink = url('/invitation/response/' . $contact->invitation_token);
-            $res = $whatsapp->sendMessage($contact->phone, $this->buildInviteText($contact, $inviteLink));
+
+            if ($contact->event->hasWaTemplate()) {
+                // Per-event approved template (delivers anytime)
+                $res = $whatsapp->sendTemplate(
+                    $contact->phone,
+                    $contact->event->wa_template_name,
+                    $contact->event->buildTemplateParams($contact, $inviteLink),
+                    $contact->event->wa_template_header_image,
+                    $contact->event->wa_template_language
+                );
+            } else {
+                // Fallback: plain text (24h window only)
+                $res = $whatsapp->sendMessage($contact->phone, $this->buildInviteText($contact, $inviteLink));
+            }
 
             if ($res['success'] ?? false) {
                 $results['sent'][] = ['name' => $contact->name, 'phone' => $contact->phone];

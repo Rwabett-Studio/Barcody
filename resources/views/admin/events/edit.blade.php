@@ -133,6 +133,8 @@
                     @enderror
                 </div>
 
+                @include('admin.events._wa_template_fields', ['event' => $event])
+
                 <div class="contact-form-actions">
                     <a href="{{ route('events.index') }}" class="btn mainBtn2 light-primary">
                         <i class="fa-solid fa-arrow-left"></i>

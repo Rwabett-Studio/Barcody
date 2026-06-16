@@ -148,6 +148,18 @@ private function sendWhatsappTemplateMessage($phone, $contact, $event)
     // Personalised invitation link the guest will open
     $inviteLink = url('/invitation/response/' . $contact->invitation_token);
 
+    // 1) Per-event approved template (delivers anytime, outside 24h window)
+    if ($event && $event->hasWaTemplate()) {
+        return $this->whatsapp->sendTemplate(
+            $phone,
+            $event->wa_template_name,
+            $event->buildTemplateParams($contact, $inviteLink),
+            $event->wa_template_header_image,
+            $event->wa_template_language
+        );
+    }
+
+    // 2) Fallback: plain text (only delivers within the 24h session window)
     $lines = [];
     $lines[] = "🎉 دعوة لحضور: " . ($event->name ?? '');
     $lines[] = "أهلاً " . $contact->name . "، يسعدنا دعوتك 🌟";
