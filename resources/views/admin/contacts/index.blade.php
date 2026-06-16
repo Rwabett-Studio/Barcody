@@ -24,6 +24,17 @@
             </div>
         </div>
 
+        {{-- Bulk actions toolbar (appears when at least one guest is selected) --}}
+        <div id="bulkActionsBar" class="d-none align-items-center gap-2 mb-3">
+            <button type="button" id="bulkInviteBtn" class="btn btn-light d-flex align-items-center" style="font-weight:600;">
+                <i class="fa-regular fa-envelope me-2"></i> Send an Invite To Selected
+            </button>
+            <button type="button" id="bulkDeleteBtn" class="btn btn-light d-flex align-items-center" style="font-weight:600;">
+                <i class="fa-regular fa-trash-can me-2"></i> Delete Selected
+            </button>
+            <span class="text-muted ms-1"><span id="selectedCount">0</span> selected</span>
+        </div>
+
         <div class="contacts-table-shell">
             <div class="table-responsive">
                 <table id="contactTable" class="w-100 companyTable contacts-table">
@@ -57,7 +68,7 @@
                                 <div class="checkboxes__row">
                                     <div class="checkboxes__item">
                                         <label class="checkbox style-b">
-                                            <input type="checkbox"/>
+                                            <input type="checkbox" class="contact-checkbox" data-contact-id="{{ $contact->id }}" data-invited="{{ $contact->invited ? 1 : 0 }}"/>
                                             <div class="checkbox__checkmark"></div>
                                         </label>
                                     </div>
@@ -169,5 +180,91 @@
         </div>
     </div>
 
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const bar          = document.getElementById('bulkActionsBar');
+    const countEl      = document.getElementById('selectedCount');
+    const checkAll     = document.getElementById('checkAll');
+    const inviteBtn    = document.getElementById('bulkInviteBtn');
+    const deleteBtn    = document.getElementById('bulkDeleteBtn');
+    const inviteUrl    = "{{ route('contacts.bulk.invite') }}";
+    const deleteUrl    = "{{ route('contacts.bulk.delete') }}";
+    const csrf         = "{{ csrf_token() }}";
+
+    function boxes()    { return Array.from(document.querySelectorAll('.contact-checkbox')); }
+    function selected() { return boxes().filter(b => b.checked); }
+
+    function refresh() {
+        const n = selected().length;
+        countEl.textContent = n;
+        bar.classList.toggle('d-none', n === 0);
+        bar.classList.toggle('d-flex', n > 0);
+    }
+
+    document.addEventListener('change', function (e) {
+        if (e.target.classList.contains('contact-checkbox')) refresh();
+    });
+
+    if (checkAll) {
+        checkAll.addEventListener('change', function () {
+            boxes().forEach(b => b.checked = checkAll.checked);
+            refresh();
+        });
+    }
+
+    function ids() { return selected().map(b => parseInt(b.dataset.contactId)); }
+
+    function postJson(url, body) {
+        return fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': csrf },
+            body: JSON.stringify(body)
+        }).then(r => r.json());
+    }
+
+    inviteBtn.addEventListener('click', function () {
+        const contacts = ids();
+        if (!contacts.length) return;
+        const original = inviteBtn.innerHTML;
+        inviteBtn.disabled = true;
+        inviteBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Sending...';
+
+        postJson(inviteUrl, { contacts })
+            .then(res => {
+                const s = res.summary || {};
+                const msg = `تم الإرسال: ${s.sent || 0}\nمتخطّى (مدعو من قبل / بدون مناسبة): ${s.skipped || 0}\nفشل: ${s.failed || 0}`;
+                if (window.Swal) {
+                    Swal.fire('Invitations', msg.replace(/\n/g, '<br>'), (s.sent ? 'success' : 'info'));
+                } else {
+                    alert(msg);
+                }
+                // mark invited ones so they get skipped next time
+                selected().forEach(b => b.dataset.invited = 1);
+            })
+            .catch(() => window.Swal ? Swal.fire('Error', 'فشل الإرسال', 'error') : alert('فشل الإرسال'))
+            .finally(() => { inviteBtn.disabled = false; inviteBtn.innerHTML = original; });
+    });
+
+    deleteBtn.addEventListener('click', function () {
+        const contacts = ids();
+        if (!contacts.length) return;
+
+        const doDelete = () => postJson(deleteUrl, { contacts }).then(() => window.location.reload());
+
+        if (window.Swal) {
+            Swal.fire({
+                title: 'Delete selected?',
+                text: `سيتم حذف ${contacts.length} مدعو.`,
+                icon: 'warning', showCancelButton: true, confirmButtonColor: '#dc2626', confirmButtonText: 'Delete'
+            }).then(r => { if (r.isConfirmed) doDelete(); });
+        } else if (confirm(`Delete ${contacts.length} contacts?`)) {
+            doDelete();
+        }
+    });
+
+    refresh();
+});
+</script>
 
 @include('admin.layouts.footer')

@@ -16,6 +16,77 @@ class ContactController extends Controller
         return view('admin.contacts.index', compact('contacts'));
     }
 
+    /**
+     * Bulk-send WhatsApp invitations to the selected contacts (any events).
+     * Skips contacts already invited so we don't double-invite.
+     */
+    public function bulkInvite(Request $request, \App\Services\WhatsappService $whatsapp)
+    {
+        $request->validate([
+            'contacts'   => 'required|array|min:1',
+            'contacts.*' => 'integer|exists:contacts,id',
+        ]);
+
+        $cfg = config('services.chatberry');
+        $contacts = Contact::with('event')->whereIn('id', $request->contacts)->get();
+
+        $results = ['sent' => [], 'skipped' => [], 'failed' => []];
+
+        foreach ($contacts as $contact) {
+            // Already invited before -> skip (don't re-create the invite)
+            if ($contact->invited) {
+                $results['skipped'][] = ['name' => $contact->name, 'reason' => 'تمت دعوته من قبل'];
+                continue;
+            }
+
+            if (!$contact->event) {
+                $results['skipped'][] = ['name' => $contact->name, 'reason' => 'بدون مناسبة'];
+                continue;
+            }
+
+            $contact->markAsInvited();
+
+            $inviteLink = url('/invitation/response/' . $contact->invitation_token);
+            $res = $whatsapp->sendTemplate(
+                $contact->phone,
+                $cfg['invite_template'],
+                [$contact->name, $inviteLink],
+                $cfg['invite_image']
+            );
+
+            if ($res['success'] ?? false) {
+                $results['sent'][] = ['name' => $contact->name, 'phone' => $contact->phone];
+            } else {
+                $results['failed'][] = ['name' => $contact->name, 'error' => $res['error'] ?? 'failed'];
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'summary' => [
+                'sent'    => count($results['sent']),
+                'skipped' => count($results['skipped']),
+                'failed'  => count($results['failed']),
+            ],
+            'results' => $results,
+        ]);
+    }
+
+    /**
+     * Bulk-delete the selected contacts.
+     */
+    public function bulkDestroy(Request $request)
+    {
+        $request->validate([
+            'contacts'   => 'required|array|min:1',
+            'contacts.*' => 'integer|exists:contacts,id',
+        ]);
+
+        $deleted = Contact::whereIn('id', $request->contacts)->delete();
+
+        return response()->json(['success' => true, 'deleted' => $deleted]);
+    }
+
     public function create()
     {
         $events = Event::all();

@@ -219,6 +219,9 @@ Route::delete('/supportsettings/{supportsetting}', [SupportsettingController::cl
 
 // Contact Routes
 Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
+// Bulk actions on the Contacts page (select + invite / delete)
+Route::post('/contacts/bulk-invite', [ContactController::class, 'bulkInvite'])->name('contacts.bulk.invite');
+Route::post('/contacts/bulk-delete', [ContactController::class, 'bulkDestroy'])->name('contacts.bulk.delete');
 Route::get('/contacts/create', [ContactController::class, 'create'])->name('contacts.create');
 Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
 Route::get('/contacts/{contact}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
